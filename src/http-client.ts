@@ -138,9 +138,10 @@ export class HTTPClient {
         throw new USAiPermissionError(message);
       case 404:
         throw new USAiNotFoundError(message);
-      case 429:
+      case 429: {
         const retryAfter = response.headers.get('Retry-After');
         throw new USAiRateLimitError(message, retryAfter ? parseInt(retryAfter, 10) : undefined);
+      }
       default:
         throw new USAiAPIError(message, type, code, param, response.status);
     }

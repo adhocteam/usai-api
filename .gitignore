@@ -1,0 +1,116 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+lib/
+*.tsbuildinfo
+
+# Coverage and testing
+coverage/
+.nyc_output/
+junit.xml
+test-results/
+.jest/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+.env.local
+.env.production
+.env.staging
+.env.development
+
+# API keys and credentials (government security)
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.json
+secrets.json
+config/local.json
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Package manager lock files (keep package-lock.json for consistency)
+# yarn.lock
+# pnpm-lock.yaml
+
+# Documentation generated files
+docs/api/
+docs/build/
+
+# Examples with sensitive data
+examples/*/node_modules/
+examples/*/.env
+examples/*/dist/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings (project-specific ones should be committed)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json

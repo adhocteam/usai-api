@@ -97,7 +97,7 @@ jobs:
         delete-branch: true
         
     - name: Upload dependency reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dependency-reports
         path: |
@@ -233,7 +233,7 @@ jobs:
         echo "✅ Publisher information review completed"
         
     - name: Upload supply chain report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: supply-chain-report
         path: |

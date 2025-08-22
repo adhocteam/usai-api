@@ -81,12 +81,12 @@ jobs:
         
         echo "✅ License compliance check completed"
         
-    - name: Upload license report
-      uses: actions/upload-artifact@v3
+    - name: Upload secret detection results
+      uses: actions/upload-artifact@v4
       with:
-        name: license-report
-        path: licenses.json
-        retention-days: 30
+        name: secret-detection-report
+        path: trufflehog-results.json
+        retention-days: 90
 
   secrets-scan:
     name: Secrets Detection
@@ -166,15 +166,14 @@ jobs:
         
         echo "📊 Dependency analysis completed"
         
-    - name: Upload dependency reports
-      uses: actions/upload-artifact@v3
+    - name: Upload code quality reports
+      uses: actions/upload-artifact@v4
       with:
-        name: dependency-analysis
+        name: code-quality-report
         path: |
-          dependency-tree.json
-          outdated-packages.json
-          unused-dependencies.json
-        retention-days: 30
+          eslint-results.json
+          security-analysis.json
+        retention-days: 90
 
   government-security-review:
     name: Government Security Review

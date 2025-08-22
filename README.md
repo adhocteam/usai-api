@@ -1,16 +1,16 @@
 # USAi API Node.js Client
 
-**🚨 BETA PROJECT DISCLAIMER**: This is an open-source, community-developed client library for the USAi.gov API. It has not been tested with live USAi.gov API endpoints, as those are only available to authorized government agencies. This project is provided as-is for government agencies to adapt and use.
+**BETA PROJECT DISCLAIMER**: This is an open-source, community-developed client library for the USAi.gov API. It has not been tested with live USAi.gov API endpoints, as those are only available to authorized government agencies. This project is provided as-is for government agencies to adapt and use.
 
-**📜 NOT A GOVERNMENT PROJECT**: This is not an official government project. It is an open-source implementation designed to help federal agencies and approved partners integrate with the USAi.gov API service.
+**NOT A GOVERNMENT PROJECT**: This is not an official government project. It is an open-source implementation designed to help federal agencies and approved partners integrate with the USAi.gov API service.
 
 A Node.js client library for the USAi.gov API - Government AI service with OpenAI-compatible interface supporting Claude, Llama, Gemini and more.
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Installation](#installation)
-- [⚠️ Project Status](#️-project-status)
+- [Project Status](#project-status)
 - [Quick Start](#quick-start)
 - [Authentication](#authentication)
 - [Available Models](#available-models)
@@ -34,15 +34,15 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 
 ## Features
 
-- 🏛️ **Government-ready**: Designed for federal agencies and approved partners (untested with live API)
-- 🔄 **OpenAI-compatible**: Familiar API structure for easy migration
-- 🤖 **Multi-model support**: Claude Haiku 3.5, Claude Sonnet 3.7, Meta Llama 3.2, Gemini 2.0 Flash
-- 📊 **Embeddings**: Cohere English v3 for RAG and semantic search
-- 🔒 **Secure**: Bearer token authentication with government-grade security patterns
-- ⚡ **Modern**: Full TypeScript support with ESM and CommonJS compatibility
-- 🔄 **Streaming**: Support for real-time response streaming
-- 🛡️ **Robust**: Built-in retry logic, rate limiting, and comprehensive error handling
-- 🧪 **Beta Status**: Community-developed, seeking government testing and feedback
+- Government-ready: Designed for federal agencies and approved partners (untested with live API)
+- OpenAI-compatible: Familiar API structure for easy migration
+- Multi-model support: Claude Haiku 3.5, Claude Sonnet 3.7, Meta Llama 3.2, Gemini 2.0 Flash
+- Embeddings: Cohere English v3 for RAG and semantic search
+- Secure: Bearer token authentication with government-grade security patterns
+- Modern: Full TypeScript support with ESM and CommonJS compatibility
+- Streaming: Support for real-time response streaming
+- Robust: Built-in retry logic, rate limiting, and comprehensive error handling
+- Beta Status: Community-developed, seeking government testing and feedback
 
 ## Installation
 
@@ -50,15 +50,15 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 npm install usai-api
 ```
 
-## ⚠️ Project Status
+## Project Status
 
-This is a **beta/community project** with the following important considerations:
+This is a beta/community project with the following important considerations:
 
-- **🧪 Untested with Live API**: This library has not been tested against actual USAi.gov API endpoints, as those require government authorization
-- **🏛️ Government Use**: Intended for federal agencies and approved partners who have access to USAi.gov API credentials
-- **🤝 Community Developed**: Built by the open-source community based on available documentation
-- **🔬 Seeking Validation**: We welcome government agencies to test and provide feedback
-- **📝 Based on Documentation**: Implementation follows the official Python examples and API documentation
+- Untested with Live API: This library has not been tested against actual USAi.gov API endpoints, as those require government authorization
+- Government Use: Intended for federal agencies and approved partners who have access to USAi.gov API credentials
+- Community Developed: Built by the open-source community based on available documentation
+- Seeking Validation: We welcome government agencies to test and provide feedback
+- Based on Documentation: Implementation follows the official Python examples and API documentation
 
 ### For Government Agencies
 
@@ -366,12 +366,12 @@ try {
 
 ## Government Considerations
 
-- 🔐 **Security**: Designed for TLS encryption and secure communications
-- 🏛️ **Compliance**: Built with FedRAMP hosting patterns in mind
-- 📋 **Audit**: Includes comprehensive error handling and logging capabilities
-- 🚫 **Guardrails**: Designed to work with model provider guardrails
-- 👥 **Access**: Intended for federal agencies and approved partners with USAi.gov access
-- ⚠️ **Disclaimer**: This is not an official government library - agencies should review and test before production use
+- Security: Designed for TLS encryption and secure communications
+- Compliance: Built with FedRAMP hosting patterns in mind
+- Audit: Includes comprehensive error handling and logging capabilities
+- Guardrails: Designed to work with model provider guardrails
+- Access: Intended for federal agencies and approved partners with USAi.gov access
+- Disclaimer: This is not an official government library - agencies should review and test before production use
 
 ## License
 
@@ -380,15 +380,15 @@ MIT License - see [LICENSE file](LICENSE) for details.
 ## Support
 
 ### Community Support
-- 💬 **GitHub Discussions**: Ask questions and share experiences
-- 🐛 **GitHub Issues**: Report bugs and request features
-- 📖 **Documentation**: Check examples and API reference in this repository
+- GitHub Discussions: Ask questions and share experiences
+- GitHub Issues: Report bugs and request features
+- Documentation: Check examples and API reference in this repository
 
 ### Official USAi.gov Support
 For official USAi.gov API support and credentials:
-- 📧 Email: support@usai.gov
-- 📖 Documentation: https://docs.usai.gov
-- 🎫 Service Desk: https://servicedesk.usai.gov
+- Email: support@usai.gov
+- Documentation: https://docs.usai.gov
+- Service Desk: https://servicedesk.usai.gov
 
 ### Getting USAi.gov API Access
 This library requires valid USAi.gov API credentials. To obtain access:
@@ -398,4 +398,4 @@ This library requires valid USAi.gov API credentials. To obtain access:
 
 ---
 
-**⚠️ Important Disclaimer**: This is an open-source, community-maintained client library for the USAi.gov API. It is not officially endorsed by or affiliated with the USAi.gov team. API access requires separate government authorization and valid credentials.
+**Important Disclaimer**: This is an open-source, community-maintained client library for the USAi.gov API. It is not officially endorsed by or affiliated with the USAi.gov team. API access requires separate government authorization and valid credentials.

@@ -7,11 +7,11 @@ This file provides context and instructions for AI coding agents working on the 
 The USAi API is a TypeScript/Node.js client library that provides an OpenAI-compatible interface for accessing government AI models (Claude, Llama, Gemini) through the USAi.gov platform. This is a **beta open-source project** designed for government agencies and contractors.
 
 ### Key Technologies
-- **TypeScript** with strict mode
-- **Node.js** (16.x, 18.x, 20.x support)
-- **Jest** for testing
-- **ESLint + Prettier** for code quality
-- **OpenAI-compatible API** design patterns
+- TypeScript with strict mode
+- Node.js (16.x, 18.x, 20.x support)
+- Jest for testing
+- ESLint + Prettier for code quality
+- OpenAI-compatible API design patterns
 
 ## Setup Commands
 
@@ -55,30 +55,30 @@ npm run type-check
 - `dist/` - Built output (ESM + CommonJS)
 
 ### Build System
-- **TypeScript compilation** to both ESM (`dist/esm/`) and CommonJS (`dist/cjs/`)
-- **Dual package.json** approach for proper module resolution
-- **Source maps** included for debugging
+- TypeScript compilation to both ESM (`dist/esm/`) and CommonJS (`dist/cjs/`)
+- Dual package.json approach for proper module resolution
+- Source maps included for debugging
 
 ### Testing Strategy
-- **Unit tests** for all core functionality
-- **Integration tests** for API interactions
-- **Error handling tests** for edge cases
-- **Enhanced features tests** for government-specific functionality
+- Unit tests for all core functionality
+- Integration tests for API interactions
+- Error handling tests for edge cases
+- Enhanced features tests for government-specific functionality
 - Target: **>90% code coverage**
 
 ## Code Style Guidelines
 
 ### TypeScript Standards
-- **Strict mode enabled** - no `any` types
-- **Explicit return types** for public methods
-- **Interface-based design** over class inheritance
-- **Comprehensive JSDoc** for all public APIs
+- Strict mode enabled - no `any` types
+- Explicit return types for public methods
+- Interface-based design over class inheritance
+- Comprehensive JSDoc for all public APIs
 
 ### Formatting Rules
-- **Prettier configuration** - 2 spaces, single quotes, no semicolons
-- **ESLint rules** - TypeScript recommended + custom government rules
-- **Import organization** - external imports first, then internal
-- **File naming** - kebab-case for files, PascalCase for classes
+- Prettier configuration - 2 spaces, single quotes, no semicolons
+- ESLint rules - TypeScript recommended + custom government rules
+- Import organization - external imports first, then internal
+- File naming - kebab-case for files, PascalCase for classes
 
 ### Code Patterns
 ```typescript
@@ -150,13 +150,13 @@ npm run test:coverage
 
 ### Sensitive Data Handling
 ```typescript
-// ✅ Correct: Environment-based configuration
+// Correct: Environment-based configuration
 const config = {
   apiKey: process.env.USAI_API_KEY,
   baseURL: process.env.USAI_BASE_URL || 'https://api.usai.gov'
 }
 
-// ❌ Wrong: Hardcoded credentials
+// Wrong: Hardcoded credentials
 const config = {
   apiKey: 'sk-123456789',  // NEVER do this
 }

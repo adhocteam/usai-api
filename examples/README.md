@@ -2,21 +2,21 @@
 
 This directory contains comprehensive examples demonstrating how to use the USAi API Node.js client library. These examples are designed to help government agencies and developers understand the full capabilities of the library.
 
-## 📑 Available Examples
+## Available Examples
 
-### 🚀 [basic-usage.js](./basic-usage.js)
+### [basic-usage.js](./basic-usage.js)
 **Purpose**: Complete introduction to core USAi API functionality  
 **Best For**: First-time users, basic integration testing  
 
 **What it demonstrates**:
-- ✅ Client initialization and authentication
-- ✅ Listing available AI models
-- ✅ Simple text completion
-- ✅ Chat completions with conversation history
-- ✅ Streaming responses for real-time output
-- ✅ Creating embeddings for semantic search
-- ✅ Image analysis with government documents
-- ✅ Error handling patterns
+- Client initialization and authentication
+- Listing available AI models
+- Simple text completion
+- Chat completions with conversation history
+- Streaming responses for real-time output
+- Creating embeddings for semantic search
+- Image analysis with government documents
+- Error handling patterns
 
 **Government Use Cases**:
 - Policy Q&A systems
@@ -25,16 +25,16 @@ This directory contains comprehensive examples demonstrating how to use the USAi
 
 ---
 
-### 🔍 [embeddings.js](./embeddings.js)
+### [embeddings.js](./embeddings.js)
 **Purpose**: Advanced semantic search and document clustering  
 **Best For**: Building knowledge bases, document repositories  
 
 **What it demonstrates**:
-- ✅ Creating embeddings for government documents
-- ✅ Semantic similarity calculations
-- ✅ Document clustering and organization
-- ✅ Query-based document retrieval
-- ✅ Cosine similarity implementation
+- Creating embeddings for government documents
+- Semantic similarity calculations
+- Document clustering and organization
+- Query-based document retrieval
+- Cosine similarity implementation
 
 **Government Use Cases**:
 - Federal regulation search systems
@@ -45,18 +45,18 @@ This directory contains comprehensive examples demonstrating how to use the USAi
 
 ---
 
-### ⚡ [enhanced-features.js](./enhanced-features.js)
+### [enhanced-features.js](./enhanced-features.js)
 **Purpose**: Advanced features discovered from Python documentation  
 **Best For**: Agencies needing document/image processing  
 
 **What it demonstrates**:
-- ✅ PDF document analysis and processing
-- ✅ Government seal and form image recognition
-- ✅ Enhanced embeddings with `input_type` parameters
-- ✅ File encoding utilities (`encodeImageAsDataUri`, `encodePdfAsDataUri`)
-- ✅ Multi-modal chat with file attachments
-- ✅ Convenience methods for common tasks
-- ✅ Model capability comparisons
+- PDF document analysis and processing
+- Government seal and form image recognition
+- Enhanced embeddings with `input_type` parameters
+- File encoding utilities (`encodeImageAsDataUri`, `encodePdfAsDataUri`)
+- Multi-modal chat with file attachments
+- Convenience methods for common tasks
+- Model capability comparisons
 
 **Government Use Cases**:
 - Form processing automation
@@ -67,7 +67,7 @@ This directory contains comprehensive examples demonstrating how to use the USAi
 
 ---
 
-### 📊 [comprehensive-example.ipynb](./comprehensive-example.ipynb)
+### [comprehensive-example.ipynb](./comprehensive-example.ipynb)
 **Purpose**: Interactive Jupyter notebook with complete feature walkthrough  
 **Best For**: Learning, experimentation, documentation  
 

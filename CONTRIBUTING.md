@@ -2,17 +2,17 @@
 
 Thank you for your interest in contributing to the USAi API Node.js client library! This project is community-driven and especially welcomes contributions from government agencies who can test with live USAi.gov API endpoints.
 
-## 🚀 Quick Start
+## Quick Start
 
-1. **Fork** this repository
-2. **Clone** your fork locally
-3. **Install** dependencies: `npm install`
-4. **Create** a feature branch: `git checkout -b feature/your-feature`
-5. **Make** your changes
-6. **Test** your changes: `npm test`
-7. **Submit** a pull request
+1. Fork this repository
+2. Clone your fork locally
+3. Install dependencies: `npm install`
+4. Create a feature branch: `git checkout -b feature/your-feature`
+5. Make your changes
+6. Test your changes: `npm test`
+7. Submit a pull request
 
-## 📋 Development Setup
+## Development Setup
 
 ```bash
 # Clone your fork
@@ -38,35 +38,37 @@ npm run lint
 npm run build
 ```
 
-## 🎯 Types of Contributions
+## Types of Contributions
 
-### 🧪 **Most Needed: Live API Testing**
+### Most Needed: Live API Testing
 - Government agencies with USAi.gov API access
 - Integration testing and feedback
 - Bug reports from real-world usage
 - Performance insights
 
-### 🐛 **Bug Fixes**
+### Bug Fixes
 - Fix issues with existing functionality
 - Improve error handling
 - Resolve TypeScript type issues
 
-### ✨ **New Features**
-- Support for new USAi.gov API endpoints
-- Additional utility functions
-- Enhanced government-specific features
+### New Features
+- Additional model support
+- Enhanced government features
+- API compatibility improvements
+- Performance optimizations
 
-### 📚 **Documentation**
-- Improve README and examples
-- Add government use case tutorials
-- Update API documentation
+### Documentation
+- Improve existing guides
+- Add more examples
+- Better error documentation
+- Government compliance guides
 
-### 🔒 **Security**
-- Security vulnerability reports (see SECURITY.md)
-- Government compliance improvements
-- Authentication enhancements
+### Security
+- Security improvements
+- Vulnerability fixes
+- Government compliance enhancements
 
-## 📝 Pull Request Process
+## Pull Request Process
 
 ### Before Submitting
 - [ ] Code follows the existing style (run `npm run format`)
@@ -134,7 +136,7 @@ npm run lint
 - Add inline code documentation
 - Include government-specific examples
 
-## 🏛️ Government-Specific Guidelines
+## Government-Specific Guidelines
 
 ### Security Considerations
 - Handle API keys securely
@@ -151,7 +153,7 @@ npm run lint
 - Avoid sensitive or classified information
 - Include FOIA, compliance, and policy examples
 
-## 🐛 Reporting Issues
+## Reporting Issues
 
 ### Bug Reports
 Include:
@@ -170,9 +172,9 @@ Include:
 
 ## 💬 Getting Help
 
-- **GitHub Discussions**: General questions and community help
-- **GitHub Issues**: Bug reports and feature requests
-- **Security Issues**: See SECURITY.md for private reporting
+- GitHub Discussions: General questions and community help
+- GitHub Issues: Bug reports and feature requests
+- Security Issues: See SECURITY.md for private reporting
 
 ## 📜 Code of Conduct
 

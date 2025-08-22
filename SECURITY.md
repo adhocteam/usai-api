@@ -4,13 +4,13 @@
 
 The security of this library is important to us, especially given its intended use by government agencies. We appreciate responsible disclosure of security vulnerabilities.
 
-### 🚨 Reporting Process
+### Reporting Process
 
 **DO NOT** report security vulnerabilities through public GitHub issues.
 
 Instead, please report security vulnerabilities by emailing:
-- **Primary**: [security@yourdomain.com] (replace with actual contact)
-- **Subject Line**: "[SECURITY] USAi API Node.js Library - [Brief Description]"
+- Primary: [security@yourdomain.com] (replace with actual contact)
+- Subject Line: "[SECURITY] USAi API Node.js Library - [Brief Description]"
 
 Include the following information:
 - Type of issue (e.g., buffer overflow, SQL injection, cross-site scripting, etc.)
@@ -21,22 +21,22 @@ Include the following information:
 - Proof-of-concept or exploit code (if possible)
 - Impact of the issue, including how an attacker might exploit it
 
-### 🔒 What We Protect
+### What We Protect
 
 This library handles:
-- **API Keys and Authentication**: Government API credentials
-- **Request/Response Data**: Potentially sensitive government communications
-- **File Processing**: Government documents and images
-- **Network Communications**: TLS connections to USAi.gov endpoints
+- API Keys and Authentication: Government API credentials
+- Request/Response Data: Potentially sensitive government communications
+- File Processing: Government documents and images
+- Network Communications: TLS connections to USAi.gov endpoints
 
-### ⏱️ Response Timeline
+### Response Timeline
 
-- **Initial Response**: Within 48 hours of report
-- **Vulnerability Assessment**: Within 5 business days
-- **Fix Development**: Timeline depends on severity
-- **Public Disclosure**: After fix is available and tested
+- Initial Response: Within 48 hours of report
+- Vulnerability Assessment: Within 5 business days
+- Fix Development: Timeline depends on severity
+- Public Disclosure: After fix is available and tested
 
-### 🏆 Recognition
+### Recognition
 
 We appreciate security researchers who help keep this library secure. With your permission, we will:
 - Credit you in our security acknowledgments

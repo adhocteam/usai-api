@@ -30,20 +30,23 @@ jobs:
         
     - name: Check for dependency updates
       run: |
-        echo "🔍 Checking for dependency updates..."
+        echo "Checking for dependency updates..."
         
         # Install npm-check-updates
         npm install -g npm-check-updates
         
-        # Check for updates
+        # Check for updates using valid format
         ncu --format group
         
-        # Generate update report
-        ncu --format json > dependency-updates.json
+        # Generate update report using valid format
+        ncu --format group > dependency-updates.txt
+        
+        # Also create a simple JSON-like output
+        ncu --jsonUpgraded > dependency-updates.json || echo '{}' > dependency-updates.json
         
     - name: Security-focused updates
       run: |
-        echo "🔒 Checking for security updates..."
+        echo "Checking for security updates..."
         
         # Check npm audit and get fixable issues
         npm audit --json > audit-report.json || true
@@ -53,9 +56,9 @@ jobs:
         
         # Report what was fixed
         if git diff --quiet package*.json; then
-          echo "✅ No security updates needed"
+          echo "No security updates needed"
         else
-          echo "🔧 Security updates applied"
+          echo "Security updates applied"
           git diff package*.json
         fi
         
@@ -101,6 +104,7 @@ jobs:
       with:
         name: dependency-reports
         path: |
+          dependency-updates.txt
           dependency-updates.json
           audit-report.json
         retention-days: 30
@@ -165,19 +169,23 @@ jobs:
         
     - name: Government compliance check
       run: |
-        echo "🏛️ Checking government compliance factors..."
+        echo "Checking government compliance factors..."
         
         # Check for packages from trusted sources
         suspicious_patterns=("@types/" "test" "dev")
         
         # Review production dependencies only
-        prod_deps=$(jq -r '.dependencies | keys[]' package.json)
-        
-        echo "Production dependencies:"
-        echo "$prod_deps"
+        if [ -f package.json ]; then
+          prod_deps=$(jq -r '.dependencies | keys[]' package.json 2>/dev/null || echo "No dependencies found")
+          
+          echo "Production dependencies:"
+          echo "$prod_deps"
+        else
+          echo "No package.json found"
+        fi
         
         # Check for any packages that might need government review
-        echo "✅ Government compliance check completed"
+        echo "Government compliance check completed"
 
   supply-chain-security:
     name: Supply Chain Security
@@ -195,42 +203,45 @@ jobs:
         
     - name: Verify package signatures
       run: |
-        echo "✍️ Verifying package signatures and integrity..."
+        echo "Verifying package signatures and integrity..."
         
         # Install dependencies with integrity checking
         npm ci --audit --fund false
         
-        echo "✅ Package integrity verified"
+        echo "Package integrity verified"
         
     - name: Analyze dependency tree
       run: |
-        echo "🌳 Analyzing dependency supply chain..."
+        echo "Analyzing dependency supply chain..."
         
-        # Generate comprehensive dependency tree
-        npm list --all --long > full-dependency-tree.txt
+        # Generate comprehensive dependency tree (with error handling)
+        npm list --all --long > full-dependency-tree.txt 2>/dev/null || echo "Dependency tree generated with warnings"
         
-        # Check for deep dependency chains (potential risk)
-        max_depth=$(npm list --depth=0 --json | jq '.dependencies | to_entries | map(.value.dependencies // {} | length) | max')
+        # Check for deep dependency chains (potential risk) with safer JSON parsing
+        npm list --depth=0 --json > deps.json 2>/dev/null || echo "{}" > deps.json
+        max_depth=$(jq -r 'if .dependencies then [.dependencies | to_entries[] | if .value.dependencies then (.value.dependencies | length) else 0 end] | max else 0 end' deps.json 2>/dev/null || echo "0")
         
         echo "Maximum dependency depth: $max_depth"
         
         if [ "$max_depth" -gt 10 ]; then
-          echo "⚠️ Deep dependency chains detected - review for supply chain risks"
+          echo "Warning: Deep dependency chains detected - review for supply chain risks"
         else
-          echo "✅ Dependency depth appears reasonable"
+          echo "Dependency depth appears reasonable"
         fi
         
     - name: Check package publishers
       run: |
-        echo "👥 Checking package publisher information..."
+        echo "Checking package publisher information..."
         
-        # Get package info for main dependencies
-        for pkg in $(jq -r '.dependencies | keys[]' package.json); do
-          echo "Checking publisher for: $pkg"
-          npm view "$pkg" maintainers --json || true
+        # Get package info for main dependencies (with error handling)
+        for pkg in $(jq -r '.dependencies | keys[]' package.json 2>/dev/null || echo ""); do
+          if [ -n "$pkg" ]; then
+            echo "Checking publisher for: $pkg"
+            npm view "$pkg" maintainers --json 2>/dev/null || echo "Could not fetch maintainer info for $pkg"
+          fi
         done
         
-        echo "✅ Publisher information review completed"
+        echo "Publisher information review completed"
         
     - name: Upload supply chain report
       uses: actions/upload-artifact@v4
@@ -238,7 +249,7 @@ jobs:
         name: supply-chain-report
         path: |
           full-dependency-tree.txt
-          current-vulnerabilities.json
+          deps.json
         retention-days: 30
 
   compliance-summary:

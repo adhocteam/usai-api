@@ -9,7 +9,7 @@ The security of this library is important to us, especially given its intended u
 **DO NOT** report security vulnerabilities through public GitHub issues.
 
 Instead, please report security vulnerabilities by emailing:
-- Primary: [security@adhocteam.us] (replace with actual contact)
+- Primary: [security@adhocteam.us]
 - Subject Line: "[SECURITY] USAi API Node.js Library - [Brief Description]"
 
 Include the following information:

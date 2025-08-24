@@ -30,6 +30,7 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 - [TypeScript Support](#typescript-support)
 - [Rate Limiting](#rate-limiting)
 - [Government Considerations](#government-considerations)
+- [Security & Dependency Management](#security--dependency-management)
 - [Contributing](CONTRIBUTING.MD)
 - [License](#license)
 - [Support](#support)
@@ -374,6 +375,70 @@ try {
 - Guardrails: Designed to work with model provider guardrails
 - Access: Intended for federal agencies and approved partners with USAi.gov access
 - Disclaimer: This is not an official government library - agencies should review and test before production use
+
+## Security & Dependency Management
+
+This project includes comprehensive automated security and dependency management workflows designed specifically for government agency requirements.
+
+### Automated Security Monitoring
+
+**Daily Security Scans**
+- Vulnerability detection using npm audit and industry-standard tools
+- License compliance verification for government use
+- Secret detection to prevent credential leaks
+- Dependency supply chain analysis
+- Government-specific security pattern scanning
+
+**Critical Issue Alerting**
+- [Immediate notifications for critical vulnerabilities](https://github.com/adhocteam/usai-api/issues/2)
+- Automated workflow failures for high-risk issues
+- Detailed security reports with remediation guidance
+- Integration with government security review processes
+
+### Automated Dependency Management
+
+**Weekly Dependency Updates**
+- Automated scanning for available package updates
+- Security-focused update prioritization
+- Automatic pull request creation with government review checklists
+- Breaking change analysis and impact assessment
+
+**Supply Chain Security**
+- Deep dependency tree analysis
+- Package publisher verification
+- Integrity checking and signature validation
+- Risk assessment for third-party dependencies
+
+### Government-Specific Features
+
+**Compliance Integration**
+- [ATO (Authority to Operate) documentation support](https://github.com/adhocteam/usai-api/issues/3)
+- FedRAMP security standard alignment
+- Federal acquisition regulation compliance
+- Agency-specific security policy integration
+
+**Review & Approval Workflows**
+- Government security team notification
+- Standardized review checklists
+- Audit trail maintenance
+- Risk assessment documentation
+
+### Workflow Files
+
+The security and dependency management features are implemented in:
+- `.github/workflows/ci-cd.yml` - Core CI/CD with security scanning
+- `.github/workflows/security.yml` - Daily security monitoring
+- `.github/workflows/dependency-management.yml` - Weekly dependency updates
+
+For detailed workflow documentation, see [WORKFLOWS.md](WORKFLOWS.md).
+
+### Agency Implementation
+
+Government agencies can customize these workflows by:
+1. Configuring agency-specific security tokens (Snyk, etc.)
+2. Setting up notification channels for security alerts
+3. Adapting review processes to match internal policies
+4. Integrating with existing security monitoring systems
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "name": "usai-api",
   "version": "0.1.0",
-  "description": "Node.js client library for the USAi.gov API - Government AI service with OpenAI-compatible interface",
+  "description": "Node.js client library for the USAi.gov API: Government AI service with OpenAI-compatible interface",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {

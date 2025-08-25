@@ -28,8 +28,33 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
+    - name: Update npm
+      run: npm install -g npm@latest
+        
+    - name: Configure npm for better reliability
+      run: |
+        npm config set fetch-retry-maxtimeout 60000
+        npm config set fetch-retry-mintimeout 10000
+        npm config set fetch-timeout 300000
+        
+    - name: Clear npm cache
+      run: npm cache clean --force
+        
     - name: Install dependencies
-      run: npm ci
+      run: |
+        echo "Attempting npm ci..."
+        if ! npm ci; then
+          echo "npm ci failed, clearing cache and retrying..."
+          npm cache clean --force
+          if ! npm ci; then
+            echo "npm ci failed again, trying with fresh install..."
+            rm -f package-lock.json
+            npm install
+            echo "Regenerating package-lock.json..."
+            rm -f package-lock.json
+            npm install --package-lock-only
+          fi
+        fi
       
     - name: Run linting
       run: npm run lint

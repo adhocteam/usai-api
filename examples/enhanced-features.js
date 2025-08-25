@@ -1,4 +1,4 @@
-import { USAiAPI } from '../src/index.js';
+import { USAiAPI } from '../dist/index.js';
 import fs from 'fs';
 
 /**
@@ -191,6 +191,6 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 // Run the demonstration
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   demonstrateEnhancedFeatures().catch(console.error);
 }

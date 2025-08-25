@@ -28,8 +28,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
-    - name: Update npm
-      run: npm install -g npm@latest
+    - name: Update npm (Node.js version compatible)
+      run: |
+        if [[ "${{ matrix.node-version }}" == "16.x" ]]; then
+          npm install -g npm@8
+        elif [[ "${{ matrix.node-version }}" == "18.x" ]]; then
+          npm install -g npm@10
+        else
+          npm install -g npm@latest
+        fi
         
     - name: Configure npm for better reliability
       run: |
@@ -104,20 +111,8 @@ jobs:
         args: --severity-threshold=medium
       continue-on-error: true
 
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Dependency Review
-      uses: actions/dependency-review-action@v3
-      with:
-        fail-on-severity: moderate
-        comment-summary-in-pr: true
+  # Note: GitHub's dependency-review-action requires GitHub Advanced Security
+  # which is not available for this repository. Using Snyk and npm audit instead.
 
   build-and-validate:
     name: Build & Validate

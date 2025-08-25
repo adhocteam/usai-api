@@ -121,16 +121,29 @@ const analysis = await client.analyzeDocument(
 ## 🚀 Getting Started
 
 ### Prerequisites
+
+These examples are designed to work with the local development version of the USAi API client:
+
 ```bash
-# Ensure you have the USAi API client installed
-npm install usai-api
+# If you've cloned this repository, install dependencies
+npm install
+
+# Build the project to generate the dist/ files that examples import from
+npm run build
 
 # Set up your environment variables
 export USAI_API_KEY="your-government-api-key"
 export USAI_BASE_URL="https://your-agency-endpoint.usai.gov"
 ```
 
+**Note**: If you want to use the package from GitHub instead of local development, install it with `npm install github:adhocteam/usai-api` and update the import statements in the examples from `../dist/index.js` to `usai-api`.
+
 ### Running Examples
+
+**Prerequisites**: Build the project first to generate the `dist/` files:
+```bash
+npm run build
+```
 
 #### 1. **Basic Usage Example**
 ```bash

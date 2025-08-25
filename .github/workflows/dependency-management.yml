@@ -20,7 +20,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        # Use PAT if available for triggering workflows, fallback to GITHUB_TOKEN
+        token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
         
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -66,7 +68,8 @@ jobs:
       uses: peter-evans/create-pull-request@v5
       if: always()
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        # Use PAT if available to trigger CI workflows on the created PR
+        token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         commit-message: 'chore: update dependencies for security and maintenance'
         title: 'Automated Dependency Updates'
         body: |
@@ -82,8 +85,27 @@ jobs:
           - Applied security patches where available
           - Maintained compatibility with existing APIs
           
+          ### ⚠️ Testing Instructions
+          **Important**: Automated PRs may not trigger CI workflows automatically.
+          
+          **To validate this PR:**
+          1. **Manual CI Trigger**: Comment `/test` or push an empty commit to trigger workflows
+          2. **Local Testing**: Clone the branch and run `npm test` locally
+          3. **Example Verification**: Test all example files work correctly
+          
+          **Command to test locally:**
+          ```bash
+          git fetch origin automated-dependency-updates
+          git checkout automated-dependency-updates
+          npm ci
+          npm test
+          npm run build
+          node examples/basic-usage.js
+          ```
+          
           ### Government Agency Review
           Before merging, please ensure:
+          - [ ] CI/CD pipeline passes (trigger manually if needed)
           - [ ] Changes align with agency security policies
           - [ ] No breaking changes affect existing integrations
           - [ ] Updated dependencies are approved for government use

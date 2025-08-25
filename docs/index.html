@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USAi API Node.js Client - Open Source Government AI Integration</title>
+    <meta name="description" content="Open source Node.js client library for USAi.gov API. Beta project seeking government agency partnerships for AI integration.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🇺🇸 USAi API Node.js Client</h1>
+                <p class="subtitle">A Node.js module for working with the USAI.gov API</p>
+                <div class="status-badges">
+                    <span class="badge open-source">🔓 Open Source</span>
+                    <span class="badge beta">🚧 Beta</span>
+                    <span class="badge seeking">🤝 Seeking Partners</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h2>Building the Future of Government AI</h2>
+                <p class="hero-description">
+                    A community-driven, open source Node.js client library designed to help federal agencies 
+                    integrate with the USAi.gov API service securely and efficiently.
+                </p>
+                
+                <div class="cta-buttons">
+                    <a href="https://github.com/adhocteam/usai-api" class="btn primary">
+                        <span>📂 View on GitHub</span>
+                    </a>
+                    <a href="#partnership" class="btn secondary">
+                        <span>🤝 Partner With Us</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Messages -->
+        <section class="key-messages">
+            <div class="container">
+                <div class="message-grid">
+                    
+                    <!-- Open Source -->
+                    <div class="message-card highlight">
+                        <div class="icon">🔓</div>
+                        <h3>100% Open Source</h3>
+                        <p>
+                            MIT Licensed and completely transparent. Government agencies can review, 
+                            modify, and deploy with confidence. No vendor lock-in, no hidden costs, 
+                            no proprietary dependencies.
+                        </p>
+                        <ul class="benefits">
+                            <li>✅ Full source code transparency</li>
+                            <li>✅ Government-friendly MIT license</li>
+                            <li>✅ Community-driven development</li>
+                            <li>✅ No commercial restrictions</li>
+                        </ul>
+                    </div>
+
+                    <!-- Beta Status -->
+                    <div class="message-card highlight">
+                        <div class="icon">🚧</div>
+                        <h3>Currently in Beta</h3>
+                        <p>
+                            We're in active development and testing phase. The library is functional 
+                            but we're seeking real-world feedback from government users to refine 
+                            and improve before the stable 1.0 release.
+                        </p>
+                        <ul class="benefits">
+                            <li>🔧 Core functionality implemented</li>
+                            <li>📚 Comprehensive documentation</li>
+                            <li>🧪 Extensive test coverage</li>
+                            <li>🔄 Rapidly iterating based on feedback</li>
+                        </ul>
+                    </div>
+
+                    <!-- Partnership -->
+                    <div class="message-card highlight">
+                        <div class="icon">🤝</div>
+                        <h3>Seeking Agency Partners</h3>
+                        <p>
+                            We want to work directly with federal agencies to ensure this library 
+                            meets real government needs. Your feedback shapes the roadmap and 
+                            helps build better AI integration for everyone.
+                        </p>
+                        <ul class="benefits">
+                            <li>🎯 Influence development priorities</li>
+                            <li>📋 Share compliance requirements</li>
+                            <li>🛡️ Help define security standards</li>
+                            <li>🚀 Early access to new features</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features">
+            <div class="container">
+                <h2>Benefits of using the USAi.gov API</h2>
+                <div class="feature-grid">
+                    <div class="feature">
+                        <h3>Secure & Compliant</h3>
+                        <p>FedRAMP authorized AI models with government-grade security</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Easy Integration</h3>
+                        <p>Seamlessly integrate AI into existing government tools and workflows</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Data-Driven Insights</h3>
+                        <p>Analyze complex datasets to accelerate work and improve decision-making</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Vendor Flexibility</h3>
+                        <p>Access multiple AI models (Claude, Gemini, Llama) through one unified API</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Cost Effective</h3>
+                        <p>No vendor lock-in, choose optimal models based on capability and cost</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Custom Solutions</h3>
+                        <p>Build tailored AI tools from chatbots to data pipelines for agency needs</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Developer Ready</h3>
+                        <p>Comprehensive documentation and examples reduce development time</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start -->
+        <section class="quick-start">
+            <div class="container">
+                <h2>Quick Start</h2>
+                <div class="code-demo">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="file-name">install.sh</span>
+                            <button class="copy-btn" onclick="copyCode('install-code')">📋 Copy</button>
+                        </div>
+                        <pre id="install-code"><code># Install directly from GitHub
+npm install github:adhocteam/usai-api</code></pre>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="file-name">example.js</span>
+                            <button class="copy-btn" onclick="copyCode('example-code')">📋 Copy</button>
+                        </div>
+                        <pre id="example-code"><code>import { USAiAPI } from 'usai-api';
+
+const client = new USAiAPI({
+  apiKey: process.env.USAI_API_KEY,
+  baseUrl: process.env.USAI_BASE_URL
+});
+
+// Government document analysis
+const response = await client.complete(
+  'claude-3-5-haiku',
+  'Summarize this federal regulation for public understanding'
+);
+
+console.log(response);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partnership CTA -->
+        <section id="partnership" class="partnership-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>🤝 Partner With Us</h2>
+                    <p class="cta-description">
+                        We're actively seeking federal agencies to collaborate with during our beta phase. 
+                        Your input helps us build the AI integration tool that government really needs.
+                    </p>
+                    
+                    <div class="partnership-benefits">
+                        <div class="benefit">
+                            <h3>🎯 Shape Development</h3>
+                            <p>Influence our roadmap and feature priorities based on your agency's real needs.</p>
+                        </div>
+                        <div class="benefit">
+                            <h3>🛡️ Security & Compliance</h3>
+                            <p>Help us understand and implement the security standards your agency requires.</p>
+                        </div>
+                        <div class="benefit">
+                            <h3>🚀 Early Access</h3>
+                            <p>Get early access to new features and direct support during implementation.</p>
+                        </div>
+                        <div class="benefit">
+                            <h3>🌟 Recognition</h3>
+                            <p>Be recognized as a founding partner in building better government AI tools.</p>
+                        </div>
+                    </div>                    <div class="contact-options">
+                        <a href="mailto:hello@adhocteam.us" class="btn primary">
+                            � Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="resources">
+            <div class="container">
+                <h2>Resources</h2>
+                <div class="resource-grid">
+                    <a href="https://github.com/adhocteam/usai-api#readme" class="resource-card">
+                        <span class="icon">📚</span>
+                        <h3>Documentation</h3>
+                        <p>Complete API reference and integration guides</p>
+                    </a>
+                    <a href="https://github.com/adhocteam/usai-api/tree/main/examples" class="resource-card">
+                        <span class="icon">💡</span>
+                        <h3>Examples</h3>
+                        <p>Government-specific use cases and sample code</p>
+                    </a>
+                    <a href="https://github.com/adhocteam/usai-api/blob/main/CONTRIBUTING.md" class="resource-card">
+                        <span class="icon">🤝</span>
+                        <h3>Contributing</h3>
+                        <p>How to contribute to the project</p>
+                    </a>
+                    <a href="https://github.com/adhocteam/usai-api/blob/main/SECURITY.md" class="resource-card">
+                        <span class="icon">🛡️</span>
+                        <h3>Security</h3>
+                        <p>Security policies and vulnerability reporting</p>
+                    </a>
+                    <a href="https://github.com/adhocteam/usai-api/issues" class="resource-card">
+                        <span class="icon">🐛</span>
+                        <h3>Issues</h3>
+                        <p>Bug reports and feature requests</p>
+                    </a>
+                    <a href="https://github.com/adhocteam/usai-api/issues" class="resource-card">
+                        <span class="icon">💬</span>
+                        <h3>Discussions</h3>
+                        <p>Community questions and ideas</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status -->
+        <section class="status">
+            <div class="container">
+                <h2>Project Status</h2>
+                <div class="status-box">
+                    <h3>Important Status Information</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <h4>Beta Software</h4>
+                            <p>This library is in active development. While functional, it has not been tested with live USAi.gov endpoints and may contain bugs or incomplete features.</p>
+                        </div>
+                        <div class="status-item">
+                            <h4>Not Official Government Project</h4>
+                            <p>This is a community-driven open source project, not officially endorsed by or affiliated with the USAi.gov team or any government agency.</p>
+                        </div>
+                        <div class="status-item">
+                            <h4>API Access Required</h4>
+                            <p>Using this library requires separate authorization and valid credentials from USAi.gov. Contact your agency's IT administrator for API access.</p>
+                        </div>
+                        <div class="status-item">
+                            <h4>Community Support</h4>
+                            <p>Support is community-driven through GitHub. We welcome government agencies to join our development process and provide feedback.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🇺🇸 USAi API Node.js Client</h3>
+                    <p>A Node.js module for working with the USAI.gov API</p>
+                    <p><a href="https://adhoc.team">Built by Ad Hoc</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links</h3>
+                    <ul>
+                        <li><a href="https://github.com/adhocteam/usai-api">GitHub Repository</a></li>
+                        <li><a href="https://github.com/adhocteam/usai-api/blob/main/LICENSE">MIT License</a></li>
+                        <li><a href="https://github.com/adhocteam/usai-api/issues">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Status</h3>
+                    <p>
+                        <span class="badge beta">Beta</span> 
+                        <span class="badge open-source">Open Source</span>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ad Hoc, LLC | <a href="https://github.com/adhocteam/usai-api/blob/main/LICENSE">MIT Licensed</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(elementId) {
+            const code = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                // Visual feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

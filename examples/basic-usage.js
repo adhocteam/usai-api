@@ -1,4 +1,4 @@
-import { USAiAPI } from '../src/index.js';
+import { USAiAPI } from '../dist/index.js';
 
 // Example usage of the USAi API client
 async function main() {
@@ -127,6 +127,6 @@ async function main() {
 }
 
 // Run the example
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

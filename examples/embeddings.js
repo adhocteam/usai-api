@@ -1,4 +1,4 @@
-import { USAiAPI } from '../src/index.js';
+import { USAiAPI } from '../dist/index.js';
 
 async function embeddingsExample() {
   const client = new USAiAPI({
@@ -74,6 +74,6 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 // Run the example
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   embeddingsExample().catch(console.error);
 }

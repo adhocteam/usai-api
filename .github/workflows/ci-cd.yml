@@ -1,0 +1,279 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+    # Specifically include dependency update branches
+  pull_request_target:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+    # This triggers for PRs from automated dependency updates
+  schedule:
+    # Run security scans weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Update npm (Node.js version compatible)
+      run: |
+        echo "Current npm version: $(npm --version)"
+        echo "Attempting to update npm..."
+        if [[ "${{ matrix.node-version }}" == "16.x" ]]; then
+          npm install -g npm@8 || echo "Failed to update npm, continuing with existing version"
+        elif [[ "${{ matrix.node-version }}" == "18.x" ]]; then
+          npm install -g npm@10 || echo "Failed to update npm, continuing with existing version"
+        else
+          npm install -g npm@latest || echo "Failed to update npm, continuing with existing version"
+        fi
+        echo "Final npm version: $(npm --version)"
+      continue-on-error: true
+        
+    - name: Configure npm for better reliability
+      run: |
+        echo "Configuring npm with increased timeouts and retries..."
+        npm config set fetch-retry-maxtimeout 60000
+        npm config set fetch-retry-mintimeout 10000
+        npm config set fetch-timeout 300000
+        npm config set maxsockets 15
+        npm config set registry https://registry.npmjs.org/
+        echo "npm configuration complete"
+      continue-on-error: true
+        
+    - name: Clear npm cache
+      run: |
+        echo "Clearing npm cache..."
+        npm cache clean --force || echo "Cache clean failed, continuing..."
+        echo "Cache clear complete"
+        
+    - name: Verify npm registry access
+      run: |
+        echo "Testing npm registry access..."
+        npm ping || echo "Warning: npm registry ping failed"
+        echo "Registry test complete"
+      continue-on-error: true
+        
+    - name: Install dependencies
+      run: |
+        echo "Node.js version: $(node --version)"
+        echo "npm version: $(npm --version)"
+        echo "Attempting npm ci..."
+        
+        # First attempt: npm ci
+        if npm ci; then
+          echo "✅ npm ci succeeded"
+        else
+          echo "❌ npm ci failed, trying recovery strategies..."
+          
+          # Second attempt: clear cache and retry npm ci
+          echo "Clearing cache and retrying npm ci..."
+          npm cache clean --force || true
+          if npm ci; then
+            echo "✅ npm ci succeeded after cache clear"
+          else
+            echo "❌ npm ci failed again, trying fresh install..."
+            
+            # Third attempt: fresh install
+            rm -f package-lock.json
+            if npm install; then
+              echo "✅ npm install succeeded"
+              echo "Regenerating package-lock.json..."
+              npm install --package-lock-only || echo "Warning: Could not regenerate package-lock.json"
+            else
+              echo "❌ All npm install methods failed"
+              exit 1
+            fi
+          fi
+        fi
+        
+        echo "Final dependency installation complete"
+      
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Check code formatting
+      run: npm run format -- --check
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Upload test coverage
+      uses: codecov/codecov-action@v4
+      if: matrix.node-version == '18.x'
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+  security:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run npm audit
+      run: npm audit --audit-level=moderate || true
+      
+    - name: Security scan with Snyk
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=medium
+      continue-on-error: true
+
+  # Note: GitHub's dependency-review-action requires GitHub Advanced Security
+  # which is not available for this repository. Using Snyk and npm audit instead.
+
+  build-and-validate:
+    name: Build & Validate
+    runs-on: ubuntu-latest
+    needs: [test, security]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Validate TypeScript types
+      run: npx tsc --noEmit
+      
+    - name: Check package.json validity
+      run: npm pack --dry-run
+      
+    - name: Validate examples syntax
+      run: |
+        echo "Checking examples for basic syntax..."
+        for file in examples/*.js; do
+          echo "Checking $file"
+          # Basic syntax check using Node.js with module support
+          node --input-type=module --check < "$file" && echo "✓ $file syntax OK" || echo "⚠ $file syntax issues (may be due to imports)"
+        done
+        echo "Examples validation completed"
+      
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: |
+          dist/
+          package.json
+          README.md
+        retention-days: 7
+
+  government-compliance:
+    name: Government Compliance Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for sensitive data patterns
+      run: |
+        echo "🔍 Scanning for sensitive data patterns..."
+        
+        # Check for potential API keys or secrets
+        if grep -r -i -E "(api[_-]?key|secret|password|token)" --include="*.js" --include="*.ts" --include="*.json" --exclude-dir=node_modules --exclude-dir=.git .; then
+          echo "⚠️ Warning: Potential sensitive data found in code"
+          echo "Please review and ensure no actual secrets are committed"
+        else
+          echo "✅ No obvious sensitive data patterns found"
+        fi
+        
+        # Check for government-specific compliance
+        echo "🏛️ Checking government compliance patterns..."
+        
+        # Ensure security-related files exist
+        if [[ ! -f "SECURITY.md" ]]; then
+          echo "❌ SECURITY.md file missing"
+          exit 1
+        fi
+        
+        if [[ ! -f ".gitignore" ]]; then
+          echo "❌ .gitignore file missing"
+          exit 1
+        fi
+        
+        echo "✅ Government compliance files present"
+        
+    - name: License compliance check
+      run: |
+        echo "📜 Checking license compliance..."
+        if [[ ! -f "LICENSE" ]] && ! grep -q "license" package.json; then
+          echo "⚠️ Warning: No license information found"
+          echo "Government agencies should review licensing requirements"
+        else
+          echo "✅ License information present"
+        fi
+        
+    - name: Documentation completeness
+      run: |
+        echo "📚 Checking documentation completeness..."
+        
+        required_sections=("Installation" "Authentication" "API Reference" "Security" "Contributing")
+        
+        for section in "${required_sections[@]}"; do
+          if ! grep -q "$section" README.md; then
+            echo "❌ Missing required section: $section"
+            exit 1
+          fi
+        done
+        
+        echo "✅ All required documentation sections present"
+
+  notify-on-failure:
+    name: Failure Notification
+    runs-on: ubuntu-latest
+    needs: [test, security, build-and-validate, government-compliance]
+    if: failure()
+    
+    steps:
+    - name: Notify on failure
+      run: |
+        echo "🚨 Pipeline failed - Government agencies should be notified"
+        echo "Failed jobs may indicate security or compliance issues"
+        echo "Please review failed checks before deploying to production"

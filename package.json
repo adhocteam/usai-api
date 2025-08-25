@@ -1,0 +1,76 @@
+{
+  "name": "usai-api",
+  "version": "0.1.0",
+  "description": "Node.js client library for the USAi.gov API: Government AI service with OpenAI-compatible interface",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:cjs && npm run build:types",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:types": "tsc -p tsconfig.types.json",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "government",
+    "usai",
+    "openai-compatible",
+    "api-client",
+    "federal",
+    "llm",
+    "claude",
+    "llama",
+    "gemini",
+    "embeddings"
+  ],
+  "author": "Your Name <mark.headd@adhocteam.us>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/usai-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/usai-api/issues"
+  },
+  "homepage": "https://github.com/your-org/usai-api#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.5.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.6.2",
+    "prettier": "^3.0.2",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "peerDependencies": {
+    "@types/node": ">=16"
+  }
+}

@@ -21,37 +21,6 @@ Include the following information:
 - Proof-of-concept or exploit code (if possible)
 - Impact of the issue, including how an attacker might exploit it
 
-### What We Protect
-
-This library handles:
-- API Keys and Authentication: Government API credentials
-- Request/Response Data: Potentially sensitive government communications
-- File Processing: Government documents and images
-- Network Communications: TLS connections to USAi.gov endpoints
-
-### Response Timeline
-
-- Initial Response: Within 48 hours of report
-- Vulnerability Assessment: Within 5 business days
-- Fix Development: Timeline depends on severity
-- Public Disclosure: After fix is available and tested
-
-### Recognition
-
-We appreciate security researchers who help keep this library secure. With your permission, we will:
-- Credit you in our security acknowledgments
-- Include your name in release notes (if desired)
-- Provide updates on the fix timeline
-
-### 📋 Supported Versions
-
-We provide security updates for:
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | ✅ Yes            |
-| < 1.0   | ❌ No (Beta only) |
-
 ### 🛡️ Security Best Practices for Users
 
 When using this library in government environments:

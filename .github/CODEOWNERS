@@ -1,0 +1,42 @@
+# CODEOWNERS for USAi API Node.js Client
+# 
+# This file defines code ownership for automated review assignments.
+# GitHub will automatically request reviews from code owners when
+# pull requests modify files they own.
+#
+# For government compliance, this ensures proper oversight of
+# critical infrastructure and security-sensitive changes.
+
+# Global fallback - all files require review
+# Replace with your actual GitHub usernames/teams
+* @mheadd
+
+# Core library files - critical for functionality
+/src/ @mheadd
+/dist/ @mheadd
+/lib/ @mheadd
+
+# Package management - security sensitive
+package.json @mheadd
+package-lock.json @mheadd
+
+# GitHub workflows - critical infrastructure
+/.github/workflows/ @mheadd
+
+# Security documentation
+SECURITY.md @mheadd
+
+# TypeScript configuration
+tsconfig.json @mheadd
+
+# Public documentation
+README.md @mheadd
+
+# Examples for government agencies
+/examples/ @mheadd
+
+# Legal files
+LICENSE @mheadd
+
+# Landing page
+/docs/ @mheadd

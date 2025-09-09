@@ -1,5 +1,12 @@
 name: Test PR on Command
 
+# Permissions for comment-triggered testing
+permissions:
+  contents: read         # Read repository contents
+  pull-requests: write   # Write PR reactions and comments
+  issues: write         # Write issue reactions
+  checks: write         # Write check results
+
 on:
   issue_comment:
     types: [created]
@@ -8,12 +15,16 @@ jobs:
   test-on-command:
     name: Test PR on /test Command
     runs-on: ubuntu-latest
+    # Add timeout for security
+    timeout-minutes: 20
+    # Strict conditions for security
     if: |
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '/test') &&
       (github.event.comment.author_association == 'OWNER' ||
        github.event.comment.author_association == 'MEMBER' ||
-       github.event.comment.author_association == 'COLLABORATOR')
+       github.event.comment.author_association == 'COLLABORATOR') &&
+      github.repository == 'adhocteam/usai-api'
     
     strategy:
       matrix:

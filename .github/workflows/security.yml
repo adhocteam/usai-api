@@ -1,5 +1,11 @@
 name: Security Monitoring
 
+# Minimal permissions for security scanning
+permissions:
+  contents: read         # Read repository contents
+  actions: read         # Read workflow details
+  security-events: write # Write security scan results (for CodeQL if added)
+
 on:
   schedule:
     # Run daily security scans at 2 AM UTC
@@ -16,6 +22,7 @@ jobs:
   security-audit:
     name: Comprehensive Security Audit
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     
     steps:
     - name: Checkout code

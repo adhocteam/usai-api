@@ -1,5 +1,12 @@
 name: Dependency Management
 
+# Explicit permissions for dependency management workflow
+permissions:
+  contents: write         # Write to create commits and branches
+  pull-requests: write    # Create and update PRs
+  actions: read          # Read workflow artifacts
+  checks: read           # Read check status
+
 on:
   schedule:
     # Run weekly on Wednesdays at 10 AM UTC
@@ -15,6 +22,8 @@ jobs:
   dependency-update:
     name: Dependency Updates
     runs-on: ubuntu-latest
+    # Add timeout to prevent runaway jobs
+    timeout-minutes: 30
     
     steps:
     - name: Checkout code

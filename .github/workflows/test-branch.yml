@@ -1,5 +1,10 @@
 name: Test Branch
 
+# Minimal permissions for manual branch testing
+permissions:
+  contents: read    # Read repository contents
+  actions: read    # Read workflow details
+
 on:
   workflow_dispatch:
     inputs:
@@ -22,6 +27,7 @@ jobs:
   test-branch:
     name: Test Branch - ${{ inputs.branch }}
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     
     strategy:
       matrix:

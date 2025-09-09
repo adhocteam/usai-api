@@ -1,5 +1,12 @@
 name: CI/CD Pipeline
 
+# Explicit permissions following principle of least privilege
+permissions:
+  contents: read          # Read repository contents
+  actions: read          # Read workflow run details
+  checks: write          # Write check results
+  pull-requests: read    # Read PR information (for pull_request_target)
+
 on:
   push:
     branches: [ main, develop ]
@@ -18,6 +25,7 @@ jobs:
   test:
     name: Test Suite
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     
     strategy:
       matrix:
@@ -26,7 +34,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+      with:
+        # Security: Always checkout specific commit for pull_request_target
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        
     - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -129,6 +140,7 @@ jobs:
   security:
     name: Security Scanning
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     
     steps:
     - name: Checkout code
@@ -160,6 +172,7 @@ jobs:
   build-and-validate:
     name: Build & Validate
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [test, security]
     
     steps:
@@ -207,6 +220,7 @@ jobs:
   government-compliance:
     name: Government Compliance Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     
     steps:
     - name: Checkout code
@@ -268,6 +282,7 @@ jobs:
   notify-on-failure:
     name: Failure Notification
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [test, security, build-and-validate, government-compliance]
     if: failure()
     

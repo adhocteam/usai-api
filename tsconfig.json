@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022", // Updated for better performance and features
     "module": "CommonJS",
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2022", "DOM"], // Updated lib
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -16,7 +16,13 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    // Additional modern TypeScript features (temporarily commented out)
+    // "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+    // "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]

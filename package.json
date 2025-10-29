@@ -1,6 +1,6 @@
 {
   "name": "usai-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Node.js client library for the USAi.gov API: Government AI service with OpenAI-compatible interface",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -52,7 +52,7 @@
   },
   "homepage": "https://github.com/your-org/usai-api#readme",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
@@ -71,6 +71,6 @@
     "node-fetch": "^3.3.2"
   },
   "peerDependencies": {
-    "@types/node": ">=16"
+    "@types/node": ">=18"
   }
 }

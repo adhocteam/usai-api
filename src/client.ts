@@ -103,13 +103,23 @@ export class USAiAPI {
       content: prompt,
     });
 
-    const response = await this.createChatCompletion({
+    const requestBody: any = {
       model,
       messages,
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-      top_p: options.topP,
-    });
+    };
+
+    // Only add optional parameters if they're defined
+    if (options.temperature !== undefined) {
+      requestBody.temperature = options.temperature;
+    }
+    if (options.maxTokens !== undefined) {
+      requestBody.max_tokens = options.maxTokens;
+    }
+    if (options.topP !== undefined) {
+      requestBody.top_p = options.topP;
+    }
+
+    const response = await this.createChatCompletion(requestBody);
 
     const messageContent = response.choices[0]?.message?.content;
     if (typeof messageContent === 'string') {
@@ -145,14 +155,24 @@ export class USAiAPI {
       content: prompt,
     });
 
-    const stream = await this.createChatCompletionStream({
+    const requestBody: any = {
       model,
       messages,
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-      top_p: options.topP,
       stream: true,
-    });
+    };
+
+    // Only add optional parameters if they're defined
+    if (options.temperature !== undefined) {
+      requestBody.temperature = options.temperature;
+    }
+    if (options.maxTokens !== undefined) {
+      requestBody.max_tokens = options.maxTokens;
+    }
+    if (options.topP !== undefined) {
+      requestBody.top_p = options.topP;
+    }
+
+    const stream = await this.createChatCompletionStream(requestBody);
 
     for await (const chunk of stream) {
       const content = chunk.choices[0]?.delta?.content;
@@ -344,12 +364,20 @@ export class USAiAPI {
       ],
     });
 
-    const response = await this.createChatCompletion({
+    const requestBody: any = {
       model,
       messages,
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-    });
+    };
+
+    // Only add optional parameters if they're defined
+    if (options.temperature !== undefined) {
+      requestBody.temperature = options.temperature;
+    }
+    if (options.maxTokens !== undefined) {
+      requestBody.max_tokens = options.maxTokens;
+    }
+
+    const response = await this.createChatCompletion(requestBody);
 
     const messageContent = response.choices[0]?.message?.content;
     if (typeof messageContent === 'string') {
@@ -400,12 +428,20 @@ export class USAiAPI {
       ],
     });
 
-    const response = await this.createChatCompletion({
+    const requestBody: any = {
       model,
       messages,
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-    });
+    };
+
+    // Only add optional parameters if they're defined
+    if (options.temperature !== undefined) {
+      requestBody.temperature = options.temperature;
+    }
+    if (options.maxTokens !== undefined) {
+      requestBody.max_tokens = options.maxTokens;
+    }
+
+    const response = await this.createChatCompletion(requestBody);
 
     const messageContent = response.choices[0]?.message?.content;
     if (typeof messageContent === 'string') {

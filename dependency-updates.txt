@@ -8,7 +8,7 @@ Minor   Backwards-compatible features
 
 Major   Potentially breaking API changes
  @types/jest                       ^29.5.5  →  ^30.0.0
- @types/node                       ^20.5.0  →  ^24.9.1
+ @types/node                       ^20.5.0  →  ^24.9.2
  @typescript-eslint/eslint-plugin   ^6.4.0  →  ^8.46.2
  @typescript-eslint/parser          ^6.4.0  →  ^8.46.2
  eslint                            ^8.47.0  →  ^9.38.0

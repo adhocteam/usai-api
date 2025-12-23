@@ -1,0 +1,63 @@
+# GuardDog Configuration
+# Supply chain security scanner for npm packages
+# https://github.com/DataDog/guarddog
+
+# Severity threshold for failing builds
+# Options: info, low, medium, high, critical
+fail-on: high
+
+# Rules to enable for npm package scanning
+rules:
+  # Detect suspicious install/preinstall scripts
+  - npm-install-script
+  
+  # Detect obfuscated or minified code
+  - obfuscated-code
+  
+  # Detect potential typosquatting attempts
+  - typosquatting
+  
+  # Detect unauthorized network communication
+  - network-communication
+  
+  # Detect suspicious URLs in package metadata
+  - shady-links
+  
+  # Detect steganography in package files
+  - steganography
+  
+  # Detect hidden payloads
+  - hidden-files
+  
+  # Detect credential theft attempts
+  - exfiltration
+
+# Output configuration
+output:
+  # Format: json, sarif, text
+  format: json
+  
+  # Include severity levels in output
+  include-severity: true
+  
+  # Verbose output for debugging
+  verbose: false
+
+# Package whitelist (if needed)
+# Whitelist packages that trigger false positives
+# Format: package-name@version or package-name
+whitelist: []
+  # Example entries:
+  # - "eslint@8.0.0"  # Has legitimate install scripts
+  # - "husky"         # Has legitimate install scripts
+
+# Government-specific settings
+government:
+  # Enable enhanced scanning for government compliance
+  enhanced-scanning: true
+  
+  # Additional checks for government use cases
+  compliance-checks:
+    - check-license-compliance
+    - validate-package-provenance
+    - scan-for-backdoors

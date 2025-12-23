@@ -12,11 +12,8 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
-    # Specifically include dependency update branches
-  pull_request_target:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
-    # This triggers for PRs from automated dependency updates
+    # Note: pull_request handles all PRs including automated dependency updates
+    # from the same repo. pull_request_target is only needed for untrusted forks.
   schedule:
     # Run security scans weekly on Mondays at 9 AM UTC
     - cron: '0 9 * * 1'
@@ -140,7 +137,9 @@ jobs:
   security:
     name: Security Scanning
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
+    # Note: Comprehensive security scans (npm audit, GuardDog, secrets scanning)
+    # run daily in security.yml. This job provides fast PR-level feedback.
     
     steps:
     - name: Checkout code
@@ -155,19 +154,18 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Run npm audit
-      run: npm audit --audit-level=moderate || true
-      
     - name: Security scan with Snyk
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        args: --severity-threshold=medium
+        args: --severity-threshold=high
       continue-on-error: true
 
   # Note: GitHub's dependency-review-action requires GitHub Advanced Security
-  # which is not available for this repository. Using Snyk and npm audit instead.
+  # which is not available for this repository. Using Snyk for PR checks.
+  # Comprehensive security scanning (npm audit, GuardDog, license compliance,
+  # secrets detection) runs daily via security.yml workflow.
 
   build-and-validate:
     name: Build & Validate

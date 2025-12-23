@@ -1,6 +1,7 @@
 # USAi API Node.js Client
 
 [![CI/CD Pipeline](https://github.com/adhocteam/usai-api/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/adhocteam/usai-api/actions/workflows/ci-cd.yml)
+[![Security Monitoring](https://github.com/adhocteam/usai-api/actions/workflows/security.yml/badge.svg)](https://github.com/adhocteam/usai-api/actions/workflows/security.yml)
 
 **BETA PROJECT DISCLAIMER**: This is an open-source, community-developed client library for the USAi.gov API. It has not been tested with live USAi.gov API endpoints, as those are only available to authorized government agencies. This project is provided as-is for government agencies to adapt and use.
 

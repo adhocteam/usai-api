@@ -32,6 +32,31 @@ When using this library in government environments:
 5. **Access Control**: Limit library usage to authorized personnel only
 6. **Updates**: Keep the library updated to the latest secure version
 
+### 🔒 Supply Chain Security
+
+This project implements comprehensive supply chain security measures:
+
+- **GuardDog Scanning**: Automated detection of malicious packages, typosquatting, and supply chain attacks
+- **Dependency Auditing**: Daily npm audit scans for known vulnerabilities
+- **License Compliance**: Automated license checking against approved government licenses
+- **Secrets Detection**: Continuous monitoring for exposed credentials
+- **Multi-layered Protection**: npm audit, Snyk, CodeQL, and GuardDog provide complementary coverage
+
+#### GuardDog Integration
+
+We use [GuardDog](https://github.com/DataDog/guarddog) to protect against:
+- Malicious npm packages in dependencies
+- Typosquatting attacks
+- Code obfuscation and hidden payloads
+- Unauthorized network communication
+- Install script vulnerabilities
+- Dependency confusion attacks
+
+The scan runs automatically on:
+- Every push to main branch that modifies dependencies
+- Daily at 2 AM UTC
+- Manual workflow dispatch
+
 ### 🏛️ Government Security Considerations
 
 For federal agencies and government users:

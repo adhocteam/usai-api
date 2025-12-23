@@ -181,6 +181,68 @@ jobs:
           security-analysis.json
         retention-days: 90
 
+  guarddog-scan:
+    name: GuardDog Supply Chain Security
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install GuardDog
+      run: |
+        pip install guarddog
+        
+    - name: Run GuardDog scan
+      run: |
+        echo "🐕 Running GuardDog supply chain security scan..."
+        guarddog npm scan package.json --output-format json --output-file guarddog-results.json || true
+        
+    - name: Display GuardDog results
+      if: always()
+      run: |
+        echo "📊 GuardDog Scan Results:"
+        if [ -f guarddog-results.json ]; then
+          cat guarddog-results.json | jq '.' || cat guarddog-results.json
+        else
+          echo "No results file generated"
+        fi
+        
+    - name: Check for high-severity issues
+      run: |
+        echo "🔍 Checking for high-severity supply chain threats..."
+        
+        if [ -f guarddog-results.json ]; then
+          # Check if any high/critical severity issues exist
+          high_severity=$(cat guarddog-results.json | jq '[.[] | select(.severity == "high" or .severity == "critical")] | length' 2>/dev/null || echo "0")
+          
+          if [ "$high_severity" -gt 0 ]; then
+            echo "❌ Found $high_severity high/critical severity supply chain issues!"
+            echo "Review the scan results for details."
+            exit 1
+          else
+            echo "✅ No high/critical severity issues detected"
+          fi
+        else
+          echo "⚠️ No results to analyze"
+        fi
+        
+    - name: Upload GuardDog results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: guarddog-scan-results
+        path: guarddog-results.json
+        retention-days: 90
+
   government-security-review:
     name: Government Security Review
     runs-on: ubuntu-latest
@@ -237,7 +299,7 @@ jobs:
   security-summary:
     name: Security Summary Report
     runs-on: ubuntu-latest
-    needs: [security-audit, license-compliance, secrets-scan, dependency-graph, government-security-review]
+    needs: [security-audit, license-compliance, secrets-scan, dependency-graph, guarddog-scan, government-security-review]
     if: always()
     
     steps:
@@ -253,11 +315,13 @@ jobs:
         echo "- License Compliance: ${{ needs.license-compliance.result }}"
         echo "- Secrets Scan: ${{ needs.secrets-scan.result }}"
         echo "- Dependency Analysis: ${{ needs.dependency-graph.result }}"
+        echo "- GuardDog Supply Chain Scan: ${{ needs.guarddog-scan.result }}"
         echo "- Government Security Review: ${{ needs.government-security-review.result }}"
         echo ""
         
         if [[ "${{ needs.security-audit.result }}" == "failure" ]] || 
-           [[ "${{ needs.secrets-scan.result }}" == "failure" ]] || 
+           [[ "${{ needs.suarddog-scan.result }}" == "failure" ]] || 
+           [[ "${{ needs.gecrets-scan.result }}" == "failure" ]] || 
            [[ "${{ needs.government-security-review.result }}" == "failure" ]]; then
           echo "🚨 SECURITY ISSUES DETECTED"
           echo "Government agencies should review failed checks before use"

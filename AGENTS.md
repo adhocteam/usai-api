@@ -8,7 +8,7 @@ The USAi API is a TypeScript/Node.js client library that provides an OpenAI-comp
 
 ### Key Technologies
 - TypeScript with strict mode
-- Node.js (16.x, 18.x, 20.x support)
+- Node.js (18.x, 20.x support)
 - Jest for testing
 - ESLint + Prettier for code quality
 - OpenAI-compatible API design patterns

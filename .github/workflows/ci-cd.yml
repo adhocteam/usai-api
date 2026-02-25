@@ -26,7 +26,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x]
     
     steps:
     - name: Checkout code
@@ -45,9 +45,7 @@ jobs:
       run: |
         echo "Current npm version: $(npm --version)"
         echo "Attempting to update npm..."
-        if [[ "${{ matrix.node-version }}" == "16.x" ]]; then
-          npm install -g npm@8 || echo "Failed to update npm, continuing with existing version"
-        elif [[ "${{ matrix.node-version }}" == "18.x" ]]; then
+        if [[ "${{ matrix.node-version }}" == "18.x" ]]; then
           npm install -g npm@10 || echo "Failed to update npm, continuing with existing version"
         else
           npm install -g npm@latest || echo "Failed to update npm, continuing with existing version"

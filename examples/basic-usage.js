@@ -1,4 +1,4 @@
-import { USAiAPI } from '../dist/index.js';
+import { USAiAPI, USAiModels, EmbeddingInputTypes } from '../dist/index.js';
 
 // Example usage of the USAi API client
 async function main() {
@@ -16,11 +16,11 @@ async function main() {
       console.log(`  - ${model.id} (${model.owned_by})`);
     });
 
-    // 2. Simple text completion
+    // 2. Simple text completion using model constants
     console.log('\n💬 Simple Completion:');
     const simpleResponse = await client.complete(
-      'claude-3-5-haiku',
-      'Explain the three branches of the US government in 2 sentences.',
+      USAiModels.CLAUDE_3_5_HAIKU,
+      'Explain the three branches of the US government in 2 sentences.,
       {
         systemPrompt: 'You are a helpful government education assistant.',
         temperature: 0.3,
@@ -29,10 +29,10 @@ async function main() {
     );
     console.log(simpleResponse);
 
-    // 3. Chat completion with conversation
+    // 3. Chat completion with conversation using model constants
     console.log('\n🗣️ Chat Completion:');
     const chatResponse = await client.createChatCompletion({
-      model: 'claude-3-5-haiku',
+      model: USAiModels.CLAUDE_3_5_HAIKU,
       messages: [
         {
           role: 'system',
@@ -48,12 +48,12 @@ async function main() {
     });
     console.log(chatResponse.choices[0].message.content);
 
-    // 4. Streaming completion
+    // 4. Streaming completion with newer model
     console.log('\n🌊 Streaming Completion:');
     console.log('Response: ');
     for await (const chunk of client.completeStream(
-      'claude-3-5-haiku',
-      'Write a brief overview of the Freedom of Information Act (FOIA).',
+      USAiModels.CLAUDE_4_SONNET,
+      'Write a brief overview of the Freedom of Information Act (FOIA).,
       {
         systemPrompt: 'You are a government transparency expert.',
         temperature: 0.4,

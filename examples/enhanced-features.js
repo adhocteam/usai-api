@@ -1,4 +1,4 @@
-import { USAiAPI } from '../dist/index.js';
+import { USAiAPI, USAiModels, EmbeddingInputTypes } from '../dist/index.js';
 import fs from 'fs';
 
 /**
@@ -23,7 +23,7 @@ async function demonstrateEnhancedFeatures() {
     // Example of document analysis (would work with real file)
     try {
       const documentSummary = await client.analyzeDocument(
-        'gemini-2.0-flash',
+        USAiModels.GEMINI_2_5_FLASH,
         'path/to/government-report.pdf',
         'Please analyze this government document and provide a comprehensive summary including key policies, dates, and action items.',
         {
@@ -45,7 +45,7 @@ async function demonstrateEnhancedFeatures() {
 
     try {
       const imageAnalysis = await client.analyzeImage(
-        'gemini-2.0-flash',
+        USAiModels.GEMINI_2_5_FLASH,
         'path/to/government-seal.jpg',
         'What type of government document or seal is this? Please identify any key elements, official markings, or agency identifiers.',
         {
@@ -73,9 +73,9 @@ async function demonstrateEnhancedFeatures() {
 
     // Create embeddings for clustering (like Python example)
     const clusteringEmbeddings = await client.createEmbedding({
-      model: 'cohere-english-v3',
+      model: USAiModels.COHERE_ENGLISH_V3,
       input: documentTexts,
-      input_type: 'clustering',
+      input_type: EmbeddingInputTypes.CLUSTERING,
       encoding_format: 'float'
     });
 
@@ -85,9 +85,9 @@ async function demonstrateEnhancedFeatures() {
     // Create query embedding for semantic search
     const searchQuery = "How do I ensure my business complies with federal regulations?";
     const queryEmbedding = await client.createEmbedding({
-      model: 'cohere-english-v3',
+      model: USAiModels.COHERE_ENGLISH_V3,
       input: searchQuery,
-      input_type: 'search_query',
+      input_type: EmbeddingInputTypes.SEARCH_QUERY,
       encoding_format: 'float'
     });
 
@@ -138,7 +138,7 @@ async function demonstrateEnhancedFeatures() {
     console.log('\n💬 Multi-modal Chat Example:');
     
     const multiModalResponse = await client.createChatCompletion({
-      model: 'gemini-2.0-flash',
+      model: USAiModels.GEMINI_2_5_FLASH,
       messages: [
         {
           role: 'system',
@@ -169,13 +169,15 @@ async function demonstrateEnhancedFeatures() {
     console.log('Multi-modal response structure ready');
     console.log('Note: Add file content using USAiAPI utility methods');
 
-    console.log('\n🎉 Enhanced features demonstration complete!');
+    console.log('\n� Enhanced features demonstration complete!');
     console.log('\nNew capabilities added:');
     console.log('✅ Document processing with file type support');
     console.log('✅ Enhanced embeddings with input_type parameter');
+    console.log('✅ Semantic similarity embeddings for comparing documents');
     console.log('✅ Utility methods for file encoding');
     console.log('✅ Convenience methods for document/image analysis');
     console.log('✅ Government-specific use case examples');
+    console.log('✅ Model constants for type-safe model selection');
 
   } catch (error) {
     console.error('❌ Error during demonstration:', error.message);

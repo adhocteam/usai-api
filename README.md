@@ -51,7 +51,7 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 ## Installation
 
 ```bash
-npm install github:adhocteam/usai-api
+npm install usai-api
 ```
 
 ## Project Status

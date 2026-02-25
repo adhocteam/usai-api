@@ -2,6 +2,46 @@
  * Type definitions for USAi API
  */
 
+/**
+ * Available model identifiers for USAi API
+ * @see https://www.usai.gov/api/documentation/
+ */
+export const USAiModels = {
+  // Google AI models
+  GEMINI_2_5_FLASH: 'gemini-2.5-flash',
+  GEMINI_2_5_PRO: 'gemini-2.5-pro',
+
+  // Anthropic models
+  CLAUDE_3_5_HAIKU: 'claude-3-5-haiku',
+  CLAUDE_3_7_SONNET: 'claude-3-7-sonnet',
+  CLAUDE_4_SONNET: 'claude-4-sonnet',
+  CLAUDE_4_5_SONNET: 'claude-4-5-sonnet',
+  CLAUDE_4_OPUS: 'claude-4-opus',
+  CLAUDE_4_5_OPUS: 'claude-4-5-opus',
+
+  // Meta models
+  LLAMA_3_2_11B: 'llama-3-2-11b',
+  LLAMA_4_MAVERICK: 'llama-4-maverick',
+
+  // Embedding models
+  COHERE_ENGLISH_V3: 'cohere-english-v3',
+} as const;
+
+export type USAiModelId = (typeof USAiModels)[keyof typeof USAiModels];
+
+/**
+ * Embedding input types for optimizing embeddings for specific use cases
+ */
+export const EmbeddingInputTypes = {
+  SEARCH_DOCUMENT: 'search_document',
+  SEARCH_QUERY: 'search_query',
+  CLUSTERING: 'clustering',
+  CLASSIFICATION: 'classification',
+  SEMANTIC_SIMILARITY: 'semantic_similarity',
+} as const;
+
+export type EmbeddingInputType = (typeof EmbeddingInputTypes)[keyof typeof EmbeddingInputTypes];
+
 // Base configuration interface
 export interface USAiConfig {
   apiKey: string;
@@ -115,7 +155,12 @@ export interface EmbeddingRequest {
   model: string;
   input: string | string[];
   user?: string;
-  input_type?: 'search_document' | 'search_query' | 'clustering' | 'classification';
+  input_type?:
+    | 'search_document'
+    | 'search_query'
+    | 'clustering'
+    | 'classification'
+    | 'semantic_similarity';
   encoding_format?: 'float' | 'int8' | 'uint8' | 'binary' | 'ubinary';
   truncate?: 'NONE' | 'START' | 'END';
 }

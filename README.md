@@ -40,7 +40,7 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 
 - Government-ready: Designed for federal agencies and approved partners (untested with live API)
 - OpenAI-compatible: Familiar API structure for easy migration
-- Multi-model support: Claude Haiku 3.5, Claude Sonnet 3.7, Meta Llama 3.2, Gemini 2.0 Flash
+- Multi-model support: Claude (Haiku, Sonnet, Opus), Meta Llama (3.2, 4 Maverick), Google Gemini (2.5 Flash, 2.5 Pro)
 - Embeddings: Cohere English v3 for RAG and semantic search
 - Secure: Bearer token authentication with government-grade security patterns
 - Modern: Full TypeScript support with ESM and CommonJS compatibility
@@ -107,13 +107,46 @@ const client = new USAiAPI({
 ## Available Models
 
 ### Text Generation
-- `claude-3-5-haiku` - Fast, efficient responses
-- `claude-3-5-sonnet` - Balanced performance and capability
-- `llama-3-2` - Meta's latest open-source model
-- `gemini-2-0-flash` - Google's fastest model
+
+#### Anthropic Claude Models
+- `claude-3-5-haiku` - Fast, efficient responses (Claude Haiku 3.5)
+- `claude-3-7-sonnet` - Balanced performance and capability (Claude Sonnet 3.7)
+- `claude-4-sonnet` - Advanced reasoning (Claude Sonnet 4)
+- `claude-4-5-sonnet` - Latest Sonnet with enhanced capabilities (Claude Sonnet 4.5)
+- `claude-4-opus` - Most capable Claude model (Claude Opus 4)
+- `claude-4-5-opus` - Latest Opus with maximum capability (Claude Opus 4.5)
+
+#### Google Gemini Models
+- `gemini-2.5-flash` - Google's fastest model with great efficiency
+- `gemini-2.5-pro` - Google's advanced model for complex tasks
+
+#### Meta Llama Models
+- `llama-3-2-11b` - Meta's efficient open-source model (Llama 3.2 11B)
+- `llama-4-maverick` - Meta's latest advanced model (Llama 4 Maverick)
 
 ### Embeddings
 - `cohere-english-v3` - High-quality English text embeddings
+
+### Using Model Constants
+
+For type safety and autocomplete, use the exported model constants:
+
+```javascript
+import { USAiAPI, USAiModels, EmbeddingInputTypes } from 'usai-api';
+
+// Use model constants for type safety
+const response = await client.complete(
+  USAiModels.CLAUDE_4_SONNET,
+  'Explain federal procurement regulations.'
+);
+
+// Use embedding input type constants
+const embeddings = await client.createEmbedding({
+  model: USAiModels.COHERE_ENGLISH_V3,
+  input: 'Federal acquisition text...',
+  input_type: EmbeddingInputTypes.SEARCH_DOCUMENT
+});
+```
 
 ## API Reference
 
@@ -205,7 +238,7 @@ Process PDFs and government documents directly:
 ```javascript
 // Analyze a government PDF report
 const analysis = await client.analyzeDocument(
-  'gemini-2.0-flash',
+  'gemini-2.5-flash',
   'path/to/federal-report.pdf',
   'Summarize the key policy recommendations in this report.',
   {
@@ -223,7 +256,7 @@ Analyze government forms, seals, or documents:
 ```javascript
 // Analyze a government seal or document image
 const imageAnalysis = await client.analyzeImage(
-  'gemini-2.0-flash',
+  'gemini-2.5-flash',
   'path/to/government-seal.jpg',
   'Identify this government seal and its associated agency.',
   {
@@ -251,6 +284,13 @@ const searchEmbedding = await client.createEmbedding({
   model: 'cohere-english-v3',
   input: 'How do I comply with federal regulations?',
   input_type: 'search_query'
+});
+
+// Embeddings for semantic similarity comparisons
+const similarityEmbedding = await client.createEmbedding({
+  model: 'cohere-english-v3',
+  input: ['Document A text...', 'Document B text...'],
+  input_type: 'semantic_similarity'
 });
 ```
 

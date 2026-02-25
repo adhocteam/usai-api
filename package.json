@@ -45,12 +45,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/usai-api.git"
+    "url": "git+https://github.com/adhocteam/usai-api.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/usai-api/issues"
+    "url": "https://github.com/adhocteam/usai-api/issues"
   },
-  "homepage": "https://github.com/your-org/usai-api#readme",
+  "homepage": "https://github.com/adhocteam/usai-api#readme",
   "engines": {
     "node": ">=18.0.0"
   },

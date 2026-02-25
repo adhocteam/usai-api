@@ -88,11 +88,11 @@ jobs:
         
         echo "✅ License compliance check completed"
         
-    - name: Upload secret detection results
+    - name: Upload license report
       uses: actions/upload-artifact@v4
       with:
-        name: secret-detection-report
-        path: trufflehog-results.json
+        name: license-report
+        path: licenses.json
         retention-days: 90
 
   secrets-scan:
@@ -172,13 +172,14 @@ jobs:
         
         echo "📊 Dependency analysis completed"
         
-    - name: Upload code quality reports
+    - name: Upload dependency analysis reports
       uses: actions/upload-artifact@v4
       with:
-        name: code-quality-report
+        name: dependency-analysis-report
         path: |
-          eslint-results.json
-          security-analysis.json
+          dependency-tree.json
+          outdated-packages.json
+          unused-dependencies.json
         retention-days: 90
 
   guarddog-scan:
@@ -320,8 +321,8 @@ jobs:
         echo ""
         
         if [[ "${{ needs.security-audit.result }}" == "failure" ]] || 
-           [[ "${{ needs.suarddog-scan.result }}" == "failure" ]] || 
-           [[ "${{ needs.gecrets-scan.result }}" == "failure" ]] || 
+           [[ "${{ needs.guarddog-scan.result }}" == "failure" ]] || 
+           [[ "${{ needs.secrets-scan.result }}" == "failure" ]] || 
            [[ "${{ needs.government-security-review.result }}" == "failure" ]]; then
           echo "🚨 SECURITY ISSUES DETECTED"
           echo "Government agencies should review failed checks before use"

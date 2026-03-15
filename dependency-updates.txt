@@ -10,7 +10,7 @@ Minor   Backwards-compatible features
 
 Major   Potentially breaking API changes
  @types/jest             ^29.5.5  →  ^30.0.0
- @types/node             ^20.5.0  →  ^25.4.0
+ @types/node             ^20.5.0  →  ^25.5.0
  eslint                  ^8.47.0  →  ^10.0.3
  eslint-config-prettier   ^9.0.0  →  ^10.1.8
  jest                    ^29.6.2  →  ^30.3.0

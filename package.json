@@ -52,7 +52,7 @@
   },
   "homepage": "https://github.com/adhocteam/usai-api#readme",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
@@ -71,7 +71,7 @@
     "node-fetch": "^3.3.2"
   },
   "peerDependencies": {
-    "@types/node": ">=18"
+    "@types/node": ">=20"
   },
   "overrides": {
     "brace-expansion": "^5.0.5"

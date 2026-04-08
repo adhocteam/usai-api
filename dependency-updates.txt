@@ -1,11 +1,13 @@
 Checking /home/runner/work/usai-api/usai-api/package.json
 
 Patch   Backwards-compatible bug fixes
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.57.2
- @typescript-eslint/parser         ^8.57.1  →  ^8.57.2
+ @types/node  ^25.5.0  →  ^25.5.2
+ ts-jest      ^29.4.6  →  ^29.4.9
 
 Minor   Backwards-compatible features
- eslint  ^10.0.3  →  ^10.1.0
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.58.1
+ @typescript-eslint/parser         ^8.57.1  →  ^8.58.1
+ eslint                            ^10.0.3  →  ^10.2.0
 
 Major   Potentially breaking API changes
  typescript  ^5.9.3  →  ^6.0.2

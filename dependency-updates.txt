@@ -6,11 +6,11 @@ Patch   Backwards-compatible bug fixes
 
 Minor   Backwards-compatible features
  @types/node                       ^25.5.0  →  ^25.6.0
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.58.2
- @typescript-eslint/parser         ^8.57.1  →  ^8.58.2
- eslint                            ^10.0.3  →  ^10.2.0
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.59.0
+ @typescript-eslint/parser         ^8.57.1  →  ^8.59.0
+ eslint                            ^10.0.3  →  ^10.2.1
 
 Major   Potentially breaking API changes
- typescript  ^5.9.3  →  ^6.0.2
+ typescript  ^5.9.3  →  ^6.0.3
 
 Run ncu --format group -u to upgrade package.json

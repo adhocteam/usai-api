@@ -6,9 +6,9 @@ Patch   Backwards-compatible bug fixes
 
 Minor   Backwards-compatible features
  @types/node                       ^25.5.0  →  ^25.6.0
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.59.1
- @typescript-eslint/parser         ^8.57.1  →  ^8.59.1
- eslint                            ^10.0.3  →  ^10.2.1
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.59.2
+ @typescript-eslint/parser         ^8.57.1  →  ^8.59.2
+ eslint                            ^10.0.3  →  ^10.3.0
 
 Major   Potentially breaking API changes
  typescript  ^5.9.3  →  ^6.0.3

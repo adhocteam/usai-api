@@ -1,0 +1,67 @@
+# Source files (published package uses compiled dist/)
+src/
+*.ts
+!*.d.ts
+
+# Tests
+tests/
+__tests__/
+*.test.*
+*.spec.*
+
+# Config files
+tsconfig*.json
+jest.config.*
+eslint.config.*
+.prettierrc*
+.editorconfig
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation
+docs/
+CONTRIBUTING.md
+SECURITY.md
+AGENTS.md
+TESTING_DEPENDENCY_PRS.md
+WORKFLOWS.md
+
+# Examples
+examples/
+
+# Environment and secrets
+.env*
+*.pem
+*.key
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Coverage and reports
+coverage/
+*.lcov
+audit-report.json
+dependency-updates.*
+
+# Package manager
+.npmrc
+package-lock.json
+yarn.lock
+
+# Source maps
+*.map
+
+# Notebooks
+*.ipynb
+
+# Copilot/AI config
+.copilot/

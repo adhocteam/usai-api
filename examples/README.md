@@ -136,7 +136,7 @@ export USAI_API_KEY="your-government-api-key"
 export USAI_BASE_URL="https://your-agency-endpoint.usai.gov"
 ```
 
-**Note**: If you want to use the package from GitHub instead of local development, install it with `npm install github:adhocteam/usai-api` and update the import statements in the examples from `../dist/index.js` to `usai-api`.
+**Note**: If you want to use the published npm package instead of local development, install it with `npm install usai-api` and update the import statements in the examples from `../dist/index.js` to `usai-api`.
 
 ### Running Examples
 

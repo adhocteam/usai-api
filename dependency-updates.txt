@@ -2,12 +2,12 @@ Checking /home/runner/work/usai-api/usai-api/package.json
 
 Patch   Backwards-compatible bug fixes
  prettier   ^3.8.1  →    ^3.8.3
- ts-jest   ^29.4.6  →  ^29.4.10
+ ts-jest   ^29.4.6  →  ^29.4.11
 
 Minor   Backwards-compatible features
  @types/node                       ^25.5.0  →  ^25.9.1
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.59.4
- @typescript-eslint/parser         ^8.57.1  →  ^8.59.4
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.60.0
+ @typescript-eslint/parser         ^8.57.1  →  ^8.60.0
  eslint                            ^10.0.3  →  ^10.4.0
  jest                              ^30.3.0  →  ^30.4.2
 

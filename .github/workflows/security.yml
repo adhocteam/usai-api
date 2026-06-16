@@ -47,10 +47,11 @@ jobs:
       run: |
         echo "🛡️ Checking for known vulnerabilities..."
         
-        # Check if any high/critical vulnerabilities exist
-        if npm audit --audit-level=high --json | jq -e '.vulnerabilities | length > 0' > /dev/null 2>&1; then
+        # Use npm audit's exit code to check for high/critical vulnerabilities.
+        # --audit-level=high exits non-zero only when high or critical vulns exist;
+        # parsing the JSON directly would match all severity levels (including moderate).
+        if ! npm audit --audit-level=high; then
           echo "❌ High/Critical vulnerabilities found!"
-          npm audit --audit-level=high
           exit 1
         else
           echo "✅ No high/critical vulnerabilities found"
@@ -104,30 +105,41 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Run TruffleHog secrets scan
-      uses: trufflesecurity/trufflehog@main
+      uses: trufflesecurity/trufflehog@v3
       with:
         path: ./
-        extra_args: --debug --only-verified --no-update
+        extra_args: --debug --only-verified
       continue-on-error: true
         
     - name: Custom secrets patterns
       run: |
         echo "Scanning for government-specific sensitive patterns..."
         
-        # Government-specific patterns
-        patterns=(
+        # Government-specific patterns (case-sensitive)
+        cs_patterns=(
           "-----BEGIN (RSA |DSA |EC |OPENSSH |PGP )?PRIVATE KEY-----"
           "(aws_access_key_id|aws_secret_access_key)"
           "AKIA[0-9A-Z]{16}"
           "sk-[a-zA-Z0-9]{48}"
-          "(?i)(bearer\s+[a-z0-9\-._~+/]+)"
-          "(?i)(api[_-]?key|secret|password|token|credential)[\s]*[:=][\s]*['\"][^'\"]+['\"]"
+        )
+        
+        # Government-specific patterns (case-insensitive)
+        ci_patterns=(
+          "(bearer[[:space:]]+[a-z0-9._%+/=-]+)"
+          "(api[_-]?key|secret|password|token|credential)[[:space:]]*[:=][[:space:]]*['\"][^'\"]+['\"]"
         )
         
         found_issues=false
         
-        for pattern in "${patterns[@]}"; do
+        for pattern in "${cs_patterns[@]}"; do
           if grep -r -E "$pattern" --include="*.js" --include="*.ts" --include="*.json" --exclude-dir=node_modules --exclude-dir=.git . 2>/dev/null; then
+            echo "Potential secret found matching pattern: $pattern"
+            found_issues=true
+          fi
+        done
+        
+        for pattern in "${ci_patterns[@]}"; do
+          if grep -r -iE "$pattern" --include="*.js" --include="*.ts" --include="*.json" --exclude-dir=node_modules --exclude-dir=.git . 2>/dev/null; then
             echo "Potential secret found matching pattern: $pattern"
             found_issues=true
           fi
@@ -205,7 +217,7 @@ jobs:
     - name: Run GuardDog scan
       run: |
         echo "🐕 Running GuardDog supply chain security scan..."
-        guarddog npm scan package.json --output-format json --output-file guarddog-results.json || true
+        guarddog npm verify package.json --output-format json > guarddog-results.json || true
         
     - name: Display GuardDog results
       if: always()
@@ -242,6 +254,7 @@ jobs:
       with:
         name: guarddog-scan-results
         path: guarddog-results.json
+        if-no-files-found: ignore
         retention-days: 90
 
   government-security-review:

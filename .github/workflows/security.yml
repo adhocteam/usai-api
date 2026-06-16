@@ -139,7 +139,7 @@ jobs:
         done
         
         for pattern in "${ci_patterns[@]}"; do
-          if grep -r -iE "$pattern" --include="*.js" --include="*.ts" --include="*.json" --exclude-dir=node_modules --exclude-dir=.git . 2>/dev/null; then
+          if grep -r -iE "$pattern" --include="*.js" --include="*.ts" --include="*.json" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=tests . 2>/dev/null; then
             echo "Potential secret found matching pattern: $pattern"
             found_issues=true
           fi

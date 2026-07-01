@@ -1,18 +1,18 @@
 Checking /home/runner/work/usai-api/usai-api/package.json
 
 Patch   Backwards-compatible bug fixes
- eslint-plugin-prettier   ^5.5.5  →    ^5.5.6    [missing time]
- prettier                 ^3.8.1  →    ^3.8.4    [missing time]
- ts-jest                 ^29.4.6  →  ^29.4.11    [missing time]
+ eslint-plugin-prettier   ^5.5.5  →    ^5.5.6
+ ts-jest                 ^29.4.6  →  ^29.4.11
 
 Minor   Backwards-compatible features
- @types/node                       ^25.5.0  →  ^25.9.2    [missing time]
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.61.0    [missing time]
- @typescript-eslint/parser         ^8.57.1  →  ^8.61.0    [missing time]
- eslint                            ^10.0.3  →  ^10.4.1    [missing time]
- jest                              ^30.3.0  →  ^30.4.2    [missing time]
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.62.1
+ @typescript-eslint/parser         ^8.57.1  →  ^8.62.1
+ eslint                            ^10.0.3  →  ^10.6.0
+ jest                              ^30.3.0  →  ^30.4.2
+ prettier                           ^3.8.1  →   ^3.9.4
 
 Major   Potentially breaking API changes
- typescript  ^5.9.3  →  ^6.0.3    [missing time]
+ @types/node  ^25.5.0  →  ^26.1.0
+ typescript    ^5.9.3  →   ^6.0.3
 
 Run ncu --format group -u to upgrade package.json

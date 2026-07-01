@@ -1,22 +1,52 @@
 {
   "auditReportVersion": 2,
-  "vulnerabilities": {},
+  "vulnerabilities": {
+    "js-yaml": {
+      "name": "js-yaml",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1121859,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+          "url": "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<3.15.0"
+        }
+      ],
+      "effects": [],
+      "range": "<3.15.0",
+      "nodes": [
+        "node_modules/js-yaml"
+      ],
+      "fixAvailable": true
+    }
+  },
   "metadata": {
     "vulnerabilities": {
       "info": 0,
       "low": 0,
-      "moderate": 0,
+      "moderate": 1,
       "high": 0,
       "critical": 0,
-      "total": 0
+      "total": 1
     },
     "dependencies": {
       "prod": 7,
-      "dev": 407,
-      "optional": 28,
+      "dev": 411,
+      "optional": 31,
       "peer": 0,
       "peerOptional": 0,
-      "total": 413
+      "total": 417
     }
   }
 }

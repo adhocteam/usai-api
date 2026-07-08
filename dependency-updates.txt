@@ -5,14 +5,14 @@ Patch   Backwards-compatible bug fixes
  ts-jest                 ^29.4.6  →  ^29.4.11
 
 Minor   Backwards-compatible features
- @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.62.1
- @typescript-eslint/parser         ^8.57.1  →  ^8.62.1
+ @typescript-eslint/eslint-plugin  ^8.57.1  →  ^8.63.0
+ @typescript-eslint/parser         ^8.57.1  →  ^8.63.0
  eslint                            ^10.0.3  →  ^10.6.0
  jest                              ^30.3.0  →  ^30.4.2
  prettier                           ^3.8.1  →   ^3.9.4
 
 Major   Potentially breaking API changes
- @types/node  ^25.5.0  →  ^26.1.0
+ @types/node  ^25.5.0  →  ^26.1.1
  typescript    ^5.9.3  →   ^6.0.3
 
 Run ncu --format group -u to upgrade package.json

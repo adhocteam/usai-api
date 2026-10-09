@@ -63,7 +63,11 @@
       "nodes": [
         "node_modules/@jest/expect"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
     },
     "@jest/globals": {
       "name": "@jest/globals",
@@ -79,7 +83,11 @@
       "nodes": [
         "node_modules/@jest/globals"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
     },
     "@jest/reporters": {
       "name": "@jest/reporters",
@@ -276,13 +284,18 @@
         "jest-runtime"
       ],
       "effects": [
+        "@jest/core",
         "jest-config"
       ],
       "range": ">=25.1.0",
       "nodes": [
         "node_modules/jest-runner"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
     },
     "jest-runtime": {
       "name": "jest-runtime",
@@ -301,7 +314,11 @@
       "nodes": [
         "node_modules/jest-runtime"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
     },
     "jest-snapshot": {
       "name": "jest-snapshot",
@@ -311,7 +328,6 @@
         "@jest/transform"
       ],
       "effects": [
-        "@jest/core",
         "@jest/expect",
         "jest-circus",
         "jest-resolve-dependencies",
@@ -414,11 +430,11 @@
     },
     "dependencies": {
       "prod": 7,
-      "dev": 412,
-      "optional": 31,
+      "dev": 404,
+      "optional": 42,
       "peer": 0,
       "peerOptional": 0,
-      "total": 418
+      "total": 410
     }
   }
 }

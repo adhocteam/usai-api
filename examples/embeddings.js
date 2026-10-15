@@ -20,7 +20,7 @@ async function embeddingsExample() {
 
     // Create embeddings for all documents
     const embeddingResponse = await client.createEmbedding({
-      model: 'cohere-english-v3',
+      model: 'cohere_english_v3',
       input: documents
     });
 
@@ -34,7 +34,7 @@ async function embeddingsExample() {
 
     // Create embedding for the query
     const queryEmbedding = await client.createEmbedding({
-      model: 'cohere-english-v3',
+      model: 'cohere_english_v3',
       input: userQuery
     });
 

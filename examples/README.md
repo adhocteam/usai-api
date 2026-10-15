@@ -103,7 +103,7 @@ const procurementDocs = [
 ```javascript
 // From basic-usage.js - automate FOIA responses
 const foiaResponse = await client.complete(
-  'claude-3-5-haiku',
+  'claude_4_5_haiku',
   'Explain the process for filing a FOIA request'
 );
 ```
@@ -112,7 +112,7 @@ const foiaResponse = await client.complete(
 ```javascript
 // From enhanced-features.js - process government PDFs
 const analysis = await client.analyzeDocument(
-  'gemini-2.0-flash',
+  'gemini-2.5-flash',
   'federal-policy-report.pdf',
   'Summarize key policy recommendations'
 );

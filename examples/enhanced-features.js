@@ -76,7 +76,7 @@ async function demonstrateEnhancedFeatures() {
       model: USAiModels.COHERE_ENGLISH_V3,
       input: documentTexts,
       input_type: EmbeddingInputTypes.CLUSTERING,
-      encoding_format: 'float'
+      encodingFormat: 'float'
     });
 
     console.log(`✅ Created ${clusteringEmbeddings.data.length} clustering embeddings`);
@@ -88,7 +88,7 @@ async function demonstrateEnhancedFeatures() {
       model: USAiModels.COHERE_ENGLISH_V3,
       input: searchQuery,
       input_type: EmbeddingInputTypes.SEARCH_QUERY,
-      encoding_format: 'float'
+      encodingFormat: 'float'
     });
 
     console.log(`🔎 Query embedding created for: "${searchQuery}"`);

@@ -19,8 +19,8 @@ async function main() {
     // 2. Simple text completion using model constants
     console.log('\n💬 Simple Completion:');
     const simpleResponse = await client.complete(
-      USAiModels.CLAUDE_3_5_HAIKU,
-      'Explain the three branches of the US government in 2 sentences.,
+      USAiModels.CLAUDE_4_5_HAIKU,
+      'Explain the three branches of the US government in 2 sentences.',
       {
         systemPrompt: 'You are a helpful government education assistant.',
         temperature: 0.3,
@@ -32,7 +32,7 @@ async function main() {
     // 3. Chat completion with conversation using model constants
     console.log('\n🗣️ Chat Completion:');
     const chatResponse = await client.createChatCompletion({
-      model: USAiModels.CLAUDE_3_5_HAIKU,
+      model: USAiModels.CLAUDE_4_5_HAIKU,
       messages: [
         {
           role: 'system',
@@ -52,8 +52,8 @@ async function main() {
     console.log('\n🌊 Streaming Completion:');
     console.log('Response: ');
     for await (const chunk of client.completeStream(
-      USAiModels.CLAUDE_4_SONNET,
-      'Write a brief overview of the Freedom of Information Act (FOIA).,
+      USAiModels.CLAUDE_4_5_SONNET,
+      'Write a brief overview of the Freedom of Information Act (FOIA).',
       {
         systemPrompt: 'You are a government transparency expert.',
         temperature: 0.4,
@@ -67,7 +67,7 @@ async function main() {
     // 5. Create embeddings for semantic search
     console.log('\n🔍 Creating Embeddings:');
     const embeddingResponse = await client.createEmbedding({
-      model: 'cohere-english-v3',
+      model: 'cohere_english_v3',
       input: [
         'Federal acquisition regulations and procurement policies',
         'Government contracting and vendor management',
@@ -84,7 +84,7 @@ async function main() {
     console.log('\n🖼️ Chat with Image Support:');
     try {
       const imageResponse = await client.createChatCompletion({
-        model: 'claude-3-5-sonnet',
+        model: 'claude_4_5_sonnet',
         messages: [
           {
             role: 'user',

@@ -7,7 +7,7 @@
 
 **NOT A GOVERNMENT PROJECT**: This is not an official government project. It is an open-source implementation designed to help federal agencies and approved partners integrate with the USAi.gov API service.
 
-A Node.js client library for the USAi.gov API - Government AI service with OpenAI-compatible interface supporting Claude, Llama, Gemini and more.
+A Node.js client library for the USAi.gov API - Government AI service with OpenAI-compatible interface supporting Claude, Gemini, Llama, GPT, xAI and more.
 
 ## Table of Contents
 
@@ -19,6 +19,7 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 - [Available Models](#available-models)
 - [API Reference](#api-reference)
   - [Chat Completions](#chat-completions)
+  - [Tool Calling](#tool-calling)
   - [Embeddings](#embeddings)
   - [Models](#models)
 - [Advanced Features](#advanced-features)
@@ -40,12 +41,13 @@ A Node.js client library for the USAi.gov API - Government AI service with OpenA
 
 - Government-ready: Designed for federal agencies and approved partners (untested with live API)
 - OpenAI-compatible: Familiar API structure for easy migration
-- Multi-model support: Claude (Haiku, Sonnet, Opus), Meta Llama (3.2, 4 Maverick), Google Gemini (2.5 Flash, 2.5 Pro)
+- Multi-model support: Anthropic Claude, Google Gemini, Meta Llama, OpenAI GPT, and xAI models
 - Embeddings: Cohere English v3 for RAG and semantic search
+- Tool calling: OpenAI-compatible function/tool calling
 - Secure: Bearer token authentication with government-grade security patterns
 - Modern: Full TypeScript support with ESM and CommonJS compatibility
 - Streaming: Support for real-time response streaming
-- Robust: Built-in retry logic, rate limiting, and comprehensive error handling
+- Robust: Built-in retry logic, optional client-side rate limiting, and comprehensive error handling (including budget limits and content filtering)
 - Beta Status: Community-developed, seeking government testing and feedback
 
 ## Installation
@@ -83,7 +85,7 @@ const client = new USAiAPI({
 
 // Simple text completion
 const response = await client.complete(
-  'claude-3-5-haiku',
+  'claude_4_5_haiku',
   'Explain the federal budget process in simple terms.'
 );
 
@@ -100,32 +102,52 @@ const client = new USAiAPI({
   baseUrl: process.env.USAI_BASE_URL,
   timeout: 30000,      // Optional: request timeout in ms
   maxRetries: 3,       // Optional: max retry attempts
-  retryDelay: 1000     // Optional: initial retry delay in ms
+  retryDelay: 1000,    // Optional: initial retry delay in ms
+  throttleRequests: false // Optional: stay within documented rate limits client-side
 });
 ```
 
 ## Available Models
 
+Model availability changes over time, and USAi may remove models that no longer meet its standards. The [USAi API documentation](https://www.usai.gov/api-documentation/) lists models by display name only. The identifiers below follow the formats used in the official examples (for example `gemini-2.5-flash`, `claude_4_5_sonnet`, `llama_4_maverick`, `cohere_english_v3`) and have not been verified against a live endpoint. Call `client.getModels()` to get the authoritative identifiers available to your API key.
+
 ### Text Generation
 
 #### Anthropic Claude Models
-- `claude-3-5-haiku` - Fast, efficient responses (Claude Haiku 3.5)
-- `claude-3-7-sonnet` - Balanced performance and capability (Claude Sonnet 3.7)
-- `claude-4-sonnet` - Advanced reasoning (Claude Sonnet 4)
-- `claude-4-5-sonnet` - Latest Sonnet with enhanced capabilities (Claude Sonnet 4.5)
-- `claude-4-opus` - Most capable Claude model (Claude Opus 4)
-- `claude-4-5-opus` - Latest Opus with maximum capability (Claude Opus 4.5)
+- `claude_4_5_haiku` - Claude Haiku 4.5
+- `claude_4_5_sonnet` - Claude Sonnet 4.5
+- `claude_4_6_sonnet` - Claude Sonnet 4.6
+- `claude_5_sonnet` - Claude Sonnet 5
+- `claude_4_5_opus` - Claude Opus 4.5
+- `claude_4_7_opus` - Claude Opus 4.7
+- `claude_4_8_opus` - Claude Opus 4.8
+- `claude_5_opus` - Claude Opus 5
 
 #### Google Gemini Models
-- `gemini-2.5-flash` - Google's fastest model with great efficiency
-- `gemini-2.5-pro` - Google's advanced model for complex tasks
+- `gemini-2.5-flash` - Gemini 2.5 Flash
+- `gemini-2.5-pro` - Gemini 2.5 Pro
+- `gemini-3.5-flash` - Gemini 3.5 Flash
+- `gemini-3.7-flash` - Gemini 3.7 Flash
+- `gemini-3.8-flash` - Gemini 3.8 Flash
 
 #### Meta Llama Models
-- `llama-3-2-11b` - Meta's efficient open-source model (Llama 3.2 11B)
-- `llama-4-maverick` - Meta's latest advanced model (Llama 4 Maverick)
+- `llama3211b` - Llama 3.2 11B
+- `llama_4_maverick` - Llama 4 Maverick
+
+#### OpenAI Models
+- `gpt_5_2` - GPT 5.2
+- `gpt_5_4` - GPT 5.4
+- `gpt_5_5` - GPT 5.5
+- `gpt_5_6_sol` - GPT 5.6 Sol
+- `gpt_5_6_terra` - GPT 5.6 Terra
+- `gpt_5_6_luna` - GPT 5.6 Luna
+- `gpt_6_astra` - GPT 6 Astra
+
+#### xAI Models
+xAI models are available. Use `client.getModels()` to find their identifiers.
 
 ### Embeddings
-- `cohere-english-v3` - High-quality English text embeddings
+- `cohere_english_v3` - High-quality English text embeddings
 
 ### Using Model Constants
 
@@ -136,7 +158,7 @@ import { USAiAPI, USAiModels, EmbeddingInputTypes } from 'usai-api';
 
 // Use model constants for type safety
 const response = await client.complete(
-  USAiModels.CLAUDE_4_SONNET,
+  USAiModels.CLAUDE_4_5_SONNET,
   'Explain federal procurement regulations.'
 );
 
@@ -155,7 +177,7 @@ const embeddings = await client.createEmbedding({
 #### Basic Usage
 ```javascript
 const response = await client.createChatCompletion({
-  model: 'claude-3-5-haiku',
+  model: 'claude_4_5_haiku',
   messages: [
     { role: 'system', content: 'You are a helpful government assistant.' },
     { role: 'user', content: 'What are the steps to file a FOIA request?' }
@@ -167,10 +189,12 @@ const response = await client.createChatCompletion({
 console.log(response.choices[0].message.content);
 ```
 
+Supported parameters per the USAi documentation: `model`, `messages`, `max_tokens`, `temperature` (0.0-1.0; values outside this range are rejected client-side), `top_p`, `stream`, `tools`, and `tool_choice`. Not every OpenAI Chat Completions feature is available for every model.
+
 #### Streaming Responses
 ```javascript
 const stream = await client.createChatCompletionStream({
-  model: 'claude-3-5-haiku',
+  model: 'claude_4_5_haiku',
   messages: [
     { role: 'user', content: 'Explain the three branches of government.' }
   ],
@@ -189,7 +213,7 @@ for await (const chunk of stream) {
 ```javascript
 // Simple completion
 const result = await client.complete(
-  'claude-3-5-haiku',
+  'claude_4_5_haiku',
   'What is the role of the EPA?',
   {
     systemPrompt: 'You are an expert on federal agencies.',
@@ -200,10 +224,50 @@ const result = await client.complete(
 
 // Streaming completion
 for await (const chunk of client.completeStream(
-  'claude-3-5-haiku',
+  'claude_4_5_haiku',
   'Describe the legislative process.'
 )) {
   process.stdout.write(chunk);
+}
+```
+
+#### Tool Calling
+
+Give the model functions it can ask you to call, then send the results back:
+
+```javascript
+const tools = [{
+  type: 'function',
+  function: {
+    name: 'lookup_agency',
+    description: 'Look up details about a federal agency by acronym',
+    parameters: {
+      type: 'object',
+      properties: { acronym: { type: 'string' } },
+      required: ['acronym']
+    }
+  }
+}];
+
+const messages = [{ role: 'user', content: 'What does GSA do?' }];
+
+const first = await client.createChatCompletion({
+  model: USAiModels.GEMINI_2_5_FLASH,
+  messages,
+  tools
+});
+
+const assistantMessage = first.choices[0].message;
+if (assistantMessage.tool_calls) {
+  messages.push(assistantMessage);
+  for (const call of assistantMessage.tool_calls) {
+    const args = JSON.parse(call.function.arguments);
+    const result = await lookupAgency(args.acronym); // your implementation
+    messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(result) });
+  }
+
+  const final = await client.createChatCompletion({ model: USAiModels.GEMINI_2_5_FLASH, messages, tools });
+  console.log(final.choices[0].message.content);
 }
 ```
 
@@ -211,7 +275,7 @@ for await (const chunk of client.completeStream(
 
 ```javascript
 const embeddings = await client.createEmbedding({
-  model: 'cohere-english-v3',
+  model: 'cohere_english_v3',
   input: [
     'Federal acquisition regulations',
     'Government contracting procedures',
@@ -220,7 +284,10 @@ const embeddings = await client.createEmbedding({
 });
 
 console.log(embeddings.data[0].embedding); // Array of numbers
+console.log(embeddings.usage.prompt_tokens); // camelCase `promptTokens` is also available
 ```
+
+Optional parameters include `input_type` (see below), `dimensions` (only supported by some models), and `encodingFormat`.
 
 ### Models
 
@@ -273,22 +340,22 @@ Create embeddings optimized for specific use cases:
 ```javascript
 // Embeddings for document clustering
 const clusteringEmbeddings = await client.createEmbedding({
-  model: 'cohere-english-v3',
+  model: 'cohere_english_v3',
   input: ['Federal regulation text...', 'Policy document...'],
   input_type: 'clustering',
-  encoding_format: 'float'
+  encodingFormat: 'float'
 });
 
 // Embeddings for search queries
 const searchEmbedding = await client.createEmbedding({
-  model: 'cohere-english-v3',
+  model: 'cohere_english_v3',
   input: 'How do I comply with federal regulations?',
   input_type: 'search_query'
 });
 
 // Embeddings for semantic similarity comparisons
 const similarityEmbedding = await client.createEmbedding({
-  model: 'cohere-english-v3',
+  model: 'cohere_english_v3',
   input: ['Document A text...', 'Document B text...'],
   input_type: 'semantic_similarity'
 });
@@ -306,7 +373,7 @@ const fileUri = USAiAPI.encodeFileAsDataUri('data.csv', 'text/csv');
 
 // Use in multimodal requests
 const response = await client.createChatCompletion({
-  model: 'gemini-2.0-flash',
+  model: 'gemini-2.5-flash',
   messages: [{
     role: 'user',
     content: [
@@ -327,7 +394,7 @@ Some models support image inputs:
 
 ```javascript
 const response = await client.createChatCompletion({
-  model: 'claude-3-5-sonnet',
+  model: 'claude_4_5_sonnet',
   messages: [
     {
       role: 'user',
@@ -354,14 +421,20 @@ The library provides specific error classes for different scenarios:
 import { 
   USAiAPIError, 
   USAiRateLimitError, 
+  USAiBudgetLimitError,
+  USAiContentFilterError,
   USAiAuthenticationError 
 } from 'usai-api';
 
 try {
-  const response = await client.complete('claude-3-5-haiku', 'Hello');
+  const response = await client.complete('claude_4_5_haiku', 'Hello');
 } catch (error) {
-  if (error instanceof USAiRateLimitError) {
+  if (error instanceof USAiBudgetLimitError) {
+    console.log('Weekly budget limit reached; budgets reset each Monday');
+  } else if (error instanceof USAiRateLimitError) {
     console.log(`Rate limited. Retry after: ${error.retryAfter} seconds`);
+  } else if (error instanceof USAiContentFilterError) {
+    console.log('Request or response blocked by content filtering');
   } else if (error instanceof USAiAuthenticationError) {
     console.log('Invalid API key or authentication failed');
   } else if (error instanceof USAiAPIError) {
@@ -369,6 +442,10 @@ try {
   }
 }
 ```
+
+- `USAiBudgetLimitError` (a subclass of `USAiRateLimitError`) is raised when your agency's weekly per-person cost limit is reached (HTTP 429, "budget limit reached for this billing cycle"). It is not retried. Budgets run Monday through Sunday and apply across all of your API keys.
+- `USAiContentFilterError` is raised when platform guardrails (Azure DefaultV2 content filtering on OpenAI and xAI models) block content. Non-streaming requests receive HTTP 400. For streaming requests, the error is thrown from the stream iterator when the error chunk arrives.
+- Client errors (4xx) are not retried. Transient rate limits, server errors (5xx), and network failures are retried with exponential backoff.
 
 ## TypeScript Support
 
@@ -383,7 +460,7 @@ const client = new USAiAPI({
 });
 
 const request: ChatCompletionRequest = {
-  model: 'claude-3-5-haiku',
+  model: 'claude_4_5_haiku',
   messages: [
     { role: 'user', content: 'Hello' }
   ],
@@ -395,12 +472,29 @@ const response: ChatCompletionResponse = await client.createChatCompletion(reque
 
 ## Rate Limiting
 
-The client automatically handles rate limiting with exponential backoff:
+USAi enforces the following per-API-key limits:
+
+| Endpoint | Limit |
+|----------|-------|
+| Models | 3 calls / second |
+| Chat completions | 3 calls / second |
+| Embeddings | 100 calls / second |
+
+Exceeding a limit returns HTTP 429. The client retries these with exponential backoff, honoring `Retry-After` when present. To avoid hitting the limits in the first place, enable client-side throttling:
 
 ```javascript
-// Rate limit information is available in errors
+const client = new USAiAPI({
+  apiKey: process.env.USAI_API_KEY,
+  baseUrl: process.env.USAI_BASE_URL,
+  throttleRequests: true
+});
+```
+
+Throttling is tracked per client instance. Share a single client across your application for it to be effective. The documented limits are also exported as `USAiRateLimits`.
+
+```javascript
 try {
-  await client.complete('claude-3-5-haiku', 'Hello');
+  await client.complete('claude_4_5_haiku', 'Hello');
 } catch (error) {
   if (error instanceof USAiRateLimitError) {
     console.log(`Retry after: ${error.retryAfter} seconds`);
@@ -413,7 +507,7 @@ try {
 - Security: Designed for TLS encryption and secure communications
 - Compliance: Built with FedRAMP hosting patterns in mind
 - Audit: Includes comprehensive error handling and logging capabilities
-- Guardrails: Designed to work with model provider guardrails
+- Guardrails: OpenAI and xAI models use Azure DefaultV2 content filtering. Google, Anthropic, and Meta models rely only on provider guardrails, so add your own system prompts and safeguards as needed (see the [USAi best practices](https://www.usai.gov/api-documentation/#best-practices))
 - Access: Intended for federal agencies and approved partners with USAi.gov access
 - Disclaimer: This is not an official government library - agencies should review and test before production use
 
@@ -495,7 +589,7 @@ MIT License - see [LICENSE file](LICENSE) for details.
 ### Official USAi.gov Support
 For official USAi.gov API support and credentials:
 - Email: support@usai.gov
-- Documentation: https://docs.usai.gov
+- Documentation: https://www.usai.gov/api-documentation/
 - Service Desk: https://servicedesk.usai.gov
 
 ### Getting USAi.gov API Access

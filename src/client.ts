@@ -8,7 +8,9 @@ import {
   EmbeddingRequest,
   EmbeddingResponse,
   ChatMessage,
+  USAiError,
 } from './types';
+import { USAiAPIError, createUSAiError } from './errors';
 import * as fs from 'fs';
 
 /**
@@ -42,6 +44,7 @@ export class USAiAPI {
     if (request.stream) {
       throw new Error('Use createChatCompletionStream for streaming responses');
     }
+    USAiAPI.validateChatRequest(request);
 
     return this.httpClient.request<ChatCompletionResponse>('/api/v1/chat/completions', {
       method: 'POST',
@@ -55,6 +58,7 @@ export class USAiAPI {
   async createChatCompletionStream(
     request: ChatCompletionRequest
   ): Promise<AsyncIterable<ChatCompletionStreamResponse>> {
+    USAiAPI.validateChatRequest(request);
     const streamRequest = { ...request, stream: true };
 
     const response = await this.httpClient.request<Response>('/api/v1/chat/completions', {
@@ -70,10 +74,40 @@ export class USAiAPI {
    * Create embeddings
    */
   async createEmbedding(request: EmbeddingRequest): Promise<EmbeddingResponse> {
-    return this.httpClient.request<EmbeddingResponse>('/api/v1/embeddings', {
+    const response = await this.httpClient.request<EmbeddingResponse>('/api/v1/embeddings', {
       method: 'POST',
       body: request,
     });
+
+    // The API returns camelCase usage fields; expose OpenAI-style fields as well
+    if (response?.usage) {
+      const { usage } = response;
+      usage.prompt_tokens ??= usage.promptTokens as number;
+      usage.total_tokens ??= usage.totalTokens as number;
+    }
+
+    return response;
+  }
+
+  /**
+   * Validate chat completion parameters against documented constraints
+   */
+  private static validateChatRequest(request: ChatCompletionRequest): void {
+    const { temperature } = request;
+    if (
+      temperature !== undefined &&
+      (typeof temperature !== 'number' ||
+        Number.isNaN(temperature) ||
+        temperature < 0 ||
+        temperature > 1)
+    ) {
+      throw new USAiAPIError(
+        'temperature must be a number between 0.0 and 1.0',
+        'invalid_request_error',
+        undefined,
+        'temperature'
+      );
+    }
   }
 
   /**
@@ -175,7 +209,7 @@ export class USAiAPI {
     const stream = await this.createChatCompletionStream(requestBody);
 
     for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content;
+      const content = chunk.choices?.[0]?.delta?.content;
       if (content) {
         yield content;
       }
@@ -217,18 +251,26 @@ export class USAiAPI {
             continue;
           }
 
-          if (trimmed === 'data: [DONE]') {
-            return;
-          }
+          if (trimmed.startsWith('data:')) {
+            const jsonData = trimmed.slice(5).trim();
+            if (jsonData === '[DONE]') {
+              return;
+            }
 
-          if (trimmed.startsWith('data: ')) {
+            let parsed: ChatCompletionStreamResponse & { error?: USAiError['error'] };
             try {
-              const jsonData = trimmed.slice(6);
-              const parsed = JSON.parse(jsonData) as ChatCompletionStreamResponse;
-              yield parsed;
+              parsed = JSON.parse(jsonData);
             } catch (error) {
               console.warn('Failed to parse streaming response:', error);
+              continue;
             }
+
+            // Guardrail violations and other failures arrive as error chunks mid-stream
+            if (parsed && typeof parsed === 'object' && parsed.error) {
+              throw createUSAiError(parsed.error);
+            }
+
+            yield parsed;
           }
         }
       }

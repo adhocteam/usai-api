@@ -52,7 +52,7 @@ describe('Enhanced Features', () => {
   describe('Enhanced Embedding Options', () => {
     it('should support input_type parameter', () => {
       const embeddingRequest = {
-        model: 'cohere-english-v3',
+        model: 'cohere_english_v3',
         input: 'test text',
         input_type: 'clustering' as const,
         encoding_format: 'float' as const
@@ -68,7 +68,7 @@ describe('Enhanced Features', () => {
       
       inputTypes.forEach(inputType => {
         const request = {
-          model: 'cohere-english-v3',
+          model: 'cohere_english_v3',
           input: 'test',
           input_type: inputType as any
         };

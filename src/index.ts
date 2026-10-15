@@ -2,7 +2,7 @@
  * USAi API Node.js Client Library
  *
  * A Node.js client library for the USAi.gov API - Government AI service
- * with OpenAI-compatible interface supporting Claude, Llama, Gemini and more.
+ * with OpenAI-compatible interface supporting Claude, Gemini, Llama, GPT, xAI and more.
  */
 
 export { USAiAPI } from './client';

@@ -1,19 +1,20 @@
-import { USAiConfig, USAiError, RateLimitInfo } from './types';
+import { USAiConfig, USAiError, RateLimitInfo, USAiRateLimits } from './types';
 import {
   USAiAPIError,
   USAiRateLimitError,
-  USAiAuthenticationError,
-  USAiPermissionError,
-  USAiNotFoundError,
+  USAiBudgetLimitError,
   USAiConnectionError,
   USAiTimeoutError,
+  createUSAiError,
 } from './errors';
+import { RateLimiter } from './rate-limiter';
 
 /**
  * HTTP client for making requests to the USAi API
  */
 export class HTTPClient {
   private config: USAiConfig;
+  private rateLimiters = new Map<string, RateLimiter>();
 
   constructor(config: USAiConfig) {
     this.config = {
@@ -47,20 +48,27 @@ export class HTTPClient {
     };
 
     let lastError: Error;
+    const maxRetries = this.config.maxRetries ?? 3;
+    const retryDelay = this.config.retryDelay ?? 1000;
 
-    for (let attempt = 0; attempt <= (this.config.maxRetries || 3); attempt++) {
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
+        await this.getRateLimiter(endpoint)?.acquire();
+
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
-        const response = await fetch(url, {
-          method,
-          headers: requestHeaders,
-          body: body ? JSON.stringify(body) : undefined,
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeoutId);
+        let response: Response;
+        try {
+          response = await fetch(url, {
+            method,
+            headers: requestHeaders,
+            body: body ? JSON.stringify(body) : undefined,
+            signal: controller.signal,
+          });
+        } finally {
+          clearTimeout(timeoutId);
+        }
 
         if (response.ok) {
           if (stream) {
@@ -72,39 +80,23 @@ export class HTTPClient {
         // Handle specific error status codes
         await this.handleErrorResponse(response);
       } catch (error) {
-        lastError = error as Error;
-
-        if (error instanceof USAiRateLimitError && attempt < (this.config.maxRetries || 3)) {
-          // Exponential backoff for rate limits
-          const delay = (this.config.retryDelay || 1000) * Math.pow(2, attempt);
-          const retryAfter = error.retryAfter ? error.retryAfter * 1000 : delay;
-          await this.sleep(retryAfter);
-          continue;
-        }
-
-        if (error instanceof USAiConnectionError && attempt < (this.config.maxRetries || 3)) {
-          // Retry connection errors with exponential backoff
-          const delay = (this.config.retryDelay || 1000) * Math.pow(2, attempt);
-          await this.sleep(delay);
-          continue;
-        }
-
-        // Don't retry for authentication, permission, or not found errors
-        if (
-          error instanceof USAiAuthenticationError ||
-          error instanceof USAiPermissionError ||
-          error instanceof USAiNotFoundError
-        ) {
-          throw error;
-        }
-
-        if ((error as any)?.name === 'AbortError') {
+        if ((error as Error)?.name === 'AbortError') {
           throw new USAiTimeoutError('Request timed out');
         }
 
-        if (attempt === (this.config.maxRetries || 3)) {
-          throw error;
+        lastError = error as Error;
+
+        if (attempt >= maxRetries || !this.isRetryable(lastError)) {
+          throw lastError;
         }
+
+        // Exponential backoff, honoring Retry-After for rate limits
+        const backoff = retryDelay * Math.pow(2, attempt);
+        const delay =
+          lastError instanceof USAiRateLimitError && lastError.retryAfter
+            ? lastError.retryAfter * 1000
+            : backoff;
+        await this.sleep(delay);
       }
     }
 
@@ -112,39 +104,64 @@ export class HTTPClient {
   }
 
   /**
+   * Determine whether a failed request should be retried. Client errors (4xx),
+   * including budget limits and content filter rejections, are not retried.
+   */
+  private isRetryable(error: Error): boolean {
+    if (error instanceof USAiBudgetLimitError) {
+      return false;
+    }
+    if (error instanceof USAiRateLimitError || error instanceof USAiConnectionError) {
+      return true;
+    }
+    if (error instanceof USAiAPIError) {
+      return error.statusCode === undefined || error.statusCode >= 500;
+    }
+    // Network-level failures (e.g. fetch TypeError)
+    return true;
+  }
+
+  private getRateLimiter(endpoint: string): RateLimiter | undefined {
+    if (!this.config.throttleRequests) {
+      return undefined;
+    }
+    const limit = USAiRateLimits[endpoint];
+    if (!limit) {
+      return undefined;
+    }
+    let limiter = this.rateLimiters.get(endpoint);
+    if (!limiter) {
+      limiter = new RateLimiter(limit);
+      this.rateLimiters.set(endpoint, limiter);
+    }
+    return limiter;
+  }
+
+  /**
    * Handle error responses from the API
    */
   private async handleErrorResponse(response: Response): Promise<never> {
-    let errorData: USAiError;
+    let errorData: Partial<USAiError> | undefined;
 
     try {
-      errorData = (await response.json()) as USAiError;
+      errorData = (await response.json()) as Partial<USAiError>;
     } catch {
-      // If we can't parse the error response, create a generic error
-      errorData = {
-        error: {
-          message: `HTTP ${response.status}: ${response.statusText}`,
-          type: 'api_error',
-        },
-      };
+      errorData = undefined;
     }
 
-    const { message, type, code, param } = errorData.error;
+    const details = errorData?.error ?? {
+      message: `HTTP ${response.status}: ${response.statusText}`,
+      type: 'api_error',
+    };
 
-    switch (response.status) {
-      case 401:
-        throw new USAiAuthenticationError(message);
-      case 403:
-        throw new USAiPermissionError(message);
-      case 404:
-        throw new USAiNotFoundError(message);
-      case 429: {
-        const retryAfter = response.headers.get('Retry-After');
-        throw new USAiRateLimitError(message, retryAfter ? parseInt(retryAfter, 10) : undefined);
-      }
-      default:
-        throw new USAiAPIError(message, type, code, param, response.status);
+    let retryAfter: number | undefined;
+    if (response.status === 429) {
+      const header = response.headers.get('Retry-After');
+      const parsed = header ? parseInt(header, 10) : NaN;
+      retryAfter = Number.isNaN(parsed) ? undefined : parsed;
     }
+
+    throw createUSAiError(details, response.status, retryAfter);
   }
 
   /**

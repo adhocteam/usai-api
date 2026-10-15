@@ -47,7 +47,7 @@ describe('USAiAPI', () => {
 
       await expect(
         client.createChatCompletion({
-          model: 'claude-3-5-haiku',
+          model: 'claude_4_5_haiku',
           messages: [{ role: 'user', content: 'Hello' }],
           stream: true
         })

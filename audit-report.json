@@ -17,7 +17,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -35,7 +35,8 @@
         "jest-snapshot"
       ],
       "effects": [
-        "jest"
+        "jest",
+        "jest-cli"
       ],
       "range": ">=25.1.0",
       "nodes": [
@@ -115,7 +116,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -135,7 +136,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -157,7 +158,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -178,7 +179,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -245,9 +246,7 @@
         "jest-circus",
         "jest-runner"
       ],
-      "effects": [
-        "jest-cli"
-      ],
+      "effects": [],
       "range": ">=25.1.0",
       "nodes": [
         "node_modules/jest-config"
@@ -344,7 +343,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -379,7 +378,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     },
@@ -399,7 +398,7 @@
       ],
       "fixAvailable": {
         "name": "ts-jest",
-        "version": "27.0.3",
+        "version": "29.1.2",
         "isSemVerMajor": true
       }
     }

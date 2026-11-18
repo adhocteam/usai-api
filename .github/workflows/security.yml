@@ -47,15 +47,10 @@ jobs:
       run: |
         echo "🛡️ Checking for known vulnerabilities..."
         
-        # Use npm audit's exit code to check for high/critical vulnerabilities.
-        # --audit-level=high exits non-zero only when high or critical vulns exist;
-        # parsing the JSON directly would match all severity levels (including moderate).
-        if ! npm audit --audit-level=high; then
-          echo "❌ High/Critical vulnerabilities found!"
-          exit 1
-        else
-          echo "✅ No high/critical vulnerabilities found"
-        fi
+        # Fails on high/critical advisories unless allowlisted in
+        # .audit-allowlist.json (documented, expiring exceptions; see
+        # "Known Accepted Vulnerabilities" in SECURITY.md).
+        npm run audit:check
 
   license-compliance:
     name: License Compliance

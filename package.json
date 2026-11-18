@@ -25,6 +25,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
+    "audit:check": "node scripts/check-audit.js",
     "format": "prettier --write src/**/*.ts",
     "prepublishOnly": "npm run build"
   },
@@ -74,6 +75,8 @@
     "@types/node": ">=20"
   },
   "overrides": {
-    "brace-expansion": "^5.0.8"
+    "brace-expansion": "^5.0.8",
+    "glob": "^14.0.2",
+    "minimatch": "^11.0.1"
   }
 }

@@ -57,6 +57,17 @@ The scan runs automatically on:
 - Daily at 2 AM UTC
 - Manual workflow dispatch
 
+### 📋 Known Accepted Vulnerabilities
+
+CI blocks high/critical `npm audit` findings via `npm run audit:check`, which
+honors documented, time-boxed exceptions in [`.audit-allowlist.json`](./.audit-allowlist.json).
+Each exception must record a reason and an expiry date; expired entries fail CI
+until re-reviewed. Current exceptions:
+
+| Advisory | Package | Severity | Status | Review by |
+|----------|---------|----------|--------|-----------|
+| [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf) (CVE-2026-112366) | `picomatch` (dev-only, transitive via Jest) | High | No patched release exists yet (fix pending upstream in [micromatch/picomatch#194](https://github.com/micromatch/picomatch/pull/194)). Not included in the published package; exploitation requires attacker-controlled glob patterns in local test tooling. Will be removed once picomatch 4.0.8+ ships. | 2027-02-16 |
+
 ### 🏛️ Government Security Considerations
 
 For federal agencies and government users:

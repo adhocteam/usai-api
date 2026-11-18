@@ -1,0 +1,11 @@
+[
+  {
+    "ghsa": "GHSA-fc5q-39xc-vjpf",
+    "cve": "CVE-2026-112366",
+    "package": "picomatch",
+    "severity": "high",
+    "reason": "ReDoS in picomatch <=4.0.7 with no patched release available (fix pending in micromatch/picomatch#194). Dev-only transitive dependency of the Jest toolchain; not included in the published package, and exploitation requires attacker-controlled glob patterns in local test tooling. Remove this entry once picomatch 4.0.8+ ships and the override/update is applied.",
+    "addedOn": "2026-11-18",
+    "expires": "2027-02-16"
+  }
+]

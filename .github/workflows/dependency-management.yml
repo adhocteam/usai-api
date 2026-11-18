@@ -171,20 +171,10 @@ jobs:
         echo "Critical vulnerabilities: $critical_count"
         echo "High vulnerabilities: $high_count"
         
-        # Alert if critical vulnerabilities found
-        if [ "$critical_count" -gt 0 ] || [ "$high_count" -gt 5 ]; then
-          echo "🚨 High/Critical vulnerabilities detected!"
-          echo "Government agencies should address these immediately"
-          
-          # Output vulnerability details
-          npm audit --audit-level=high
-          
-          # Create issue for tracking
-          echo "Creating tracking issue for vulnerabilities..."
-          exit 1
-        else
-          echo "✅ No critical security issues found"
-        fi
+        # Fails on high/critical advisories unless allowlisted in
+        # .audit-allowlist.json (documented, expiring exceptions; see
+        # "Known Accepted Vulnerabilities" in SECURITY.md).
+        npm run audit:check
         
     - name: Check for compromised packages
       run: |

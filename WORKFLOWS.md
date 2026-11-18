@@ -96,6 +96,7 @@ Daily security monitoring and vulnerability detection to maintain ongoing securi
 #### 1. Vulnerability Audit (`security-audit`)
 - npm audit: Comprehensive vulnerability scanning
 - Severity Assessment: Critical/High/Medium vulnerability categorization
+- Exception Handling: High/critical gate (`npm run audit:check`) honors documented, expiring exceptions in `.audit-allowlist.json` (see SECURITY.md)
 - Remediation Guidance: Actionable fix recommendations
 - Government Impact: Agency-specific risk assessment
 

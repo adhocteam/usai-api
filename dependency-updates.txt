@@ -5,11 +5,11 @@ Patch   Backwards-compatible bug fixes
  ts-jest                 ^29.4.12  →  ^29.4.15
 
 Minor   Backwards-compatible features
- @typescript-eslint/eslint-plugin  ^8.57.1  →   ^8.72.2
- @typescript-eslint/parser         ^8.57.1  →   ^8.72.2
- eslint                            ^10.0.3  →  ^10.14.0
+ @typescript-eslint/eslint-plugin  ^8.57.1  →   ^8.73.0
+ @typescript-eslint/parser         ^8.57.1  →   ^8.73.0
+ eslint                            ^10.0.3  →  ^10.15.0
  jest                              ^30.3.0  →   ^30.5.2
- prettier                           ^3.8.1  →   ^3.9.10
+ prettier                           ^3.8.1  →   ^3.10.1
 
 Major   Potentially breaking API changes
  @types/node  ^25.5.0  →  ^26.6.6
